@@ -58,7 +58,7 @@ node metrics/token-usage-scan.js --path ../path-to-codebase
 ```
 
 - Run Storybook a11y checks (local):
-```
+```bash
 # build storybook then run axe script
 npm run build-storybook
 node scripts/run-axe-storybook.js
