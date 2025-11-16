@@ -1,0 +1,35 @@
+# What this file is:
+# A CODEOWNERS file mapping repo paths to reviewers/teams. Use Slack handles or GitHub team/handles.
+# Edit by: Design System Lead or Engineering Lead. Update when ownership changes.
+# Approvals: Design System Lead & Engineering Lead must approve changes to this file.
+
+# NOTE: replace placeholder handles below with real GitHub handles or team names.
+
+# Tokens and token scripts
+/tokens/ @token-owner @design-lead
+
+# Component docs and source
+/components/ @design-lead @eng-lead
+
+# Packages and publication scripts
+/packages/ @eng-lead @release-manager
+
+# CI workflows and scripts
+.github/workflows/ @infra-team @eng-lead
+/scripts/ @infra-team @eng-lead
+
+# Documentation
+/docs/ @docs-owner @design-lead
+/zeroheight/ @docs-owner @design-lead
+
+# Figma mappings & pages (docs only)
+/figma/ @design-lead
+
+# Assets and icons
+/icons/ @design-lead @security
+
+# Governance
+/governance/ @design-lead @eng-lead
+
+# Default fallback owners
+* @design-lead @eng-lead
