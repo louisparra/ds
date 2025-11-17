@@ -1,105 +1,75 @@
 <!--
 What this file is:
-A practical roadmap for rolling out the design system in this org. It sets milestones, releases, and the "Core 10" components.
+Canonical roadmap & milestones for the design system instance. Use this file as the single-page human view.
 
 Who should edit it:
-Design System Lead and Product Manager. Update when timelines or priorities change.
+Design System Lead (primary) with input from Product and Engineering. Small updates may be done by Docs Owner with review.
 
 When to update (example):
-Update after planning or sprint review when milestones slip or new priorities are set.
+Update after the kickoff, after baseline collection, or whenever milestone dates/owners change.
 
 Who must approve changes:
-Design System Lead and Product Manager.
+Design System Lead and Product Manager must approve roadmap changes via PR.
 -->
 
 # Roadmap & Milestones — Design System
 
-## Overview
-This roadmap divides the design system rollout into phases: **Discover → Baseline → Pilot → Scale → Operate**. Each phase has concrete deliverables (files, artifacts, and activities).
+**Status:** Draft / Proposed — update the `roadmap/milestones.yaml` file for structured changes.
+
+This document maps the rollout across five phases with measurable milestones. Use the `roadmap/milestones.yaml` for CI-friendly consumption (dashboards, automations) and `templates/milestone-template.md` to author new milestones.
 
 ---
 
-## Core 10 (minimum viable scope)
-These components and token families are the initial, high-impact deliverables to build first:
-
-- Tokens: color, type, space, radius, motion, zIndex
-- Components:
-  1. Button
-  2. Input
-  3. Card
-  4. Modal
-  5. Tooltip
-  6. Icon
-  7. Grid
-  8. Nav
-  9. Toast
-  10. Avatar
+## Core 10 (initial scope)
+- Tokens: color, type, spacing, radius, motion, zIndex  
+- Components: Button, Input, Card, Modal, Tooltip, Icon, Grid, Nav, Toast, Avatar
 
 ---
 
-## Phased milestones (example timeline — adjust per project)
-
-### Phase A — Discover & Bootstrap (Week 0–1)
-- Deliverables:
-  - `README-PROJECT.md` (this file)
-  - `project-config.md`
-  - `OWNERS.md`
-- Goal: capture constraints and assign owners.
-
-### Phase B — Tokens & First Components (Week 1–3)
-- Deliverables:
-  - `tokens/tokens.json` (semantic tokens skeleton)
-  - `components/Button/docs.md` + Storybook story
-  - `packages/tokens/dist/tokens.css` (generated)
-- Goal: ship Core tokens + Button; enable devs to import tokens.
-
-### Phase C — Pilot Migration (Week 3–6)
-- Deliverables:
-  - Pilot migration tickets (see `migration/`)
-  - Visual regression baseline (Chromatic)
-  - Measurement baseline (run measurement plan)
-- Goal: migrate 1 product flow to DS components.
-
-### Phase D — Scale & Stabilize (Week 6–12)
-- Deliverables:
-  - Add remaining Core components
-  - CI gates (token validation, visual regression)
-  - Publish packages to registry (private/public)
-- Goal: DS usable across multiple teams with CI protections.
-
-### Phase E — Operate & Improve (Ongoing)
-- Deliverables:
-  - Roadmap updates, quarterly audits, metrics reports
-  - Migration plans for deprecated tokens
-- Goal: ensure long-term health and adoption.
+## High-level phases (short)
+A. Discover & Bootstrap  
+B. Tokens & First Components (Core 10 baseline)  
+C. Pilot Migration (1 flow)  
+D. Scale & Stabilize (wider adoption)  
+E. Operate & Improve (ongoing)
 
 ---
 
-## Release cadence & versioning
-- **Tokens & core package release cadence:** Every 2–4 weeks (minor/patch), major only for breaking changes.  
-- **Visual baseline releases:** Every release triggers Chromatic; token-only changes should be batched and announced.
+## Milestones table (authoritative — mirror in `roadmap/milestones.yaml`)
+|   ID | Milestone                                 | Phase |      Start |        End | Owners                          | Primary deliverable                             | Success criteria                                        |
+| ---: | ----------------------------------------- | ----- | ---------: | ---------: | ------------------------------- | ----------------------------------------------- | ------------------------------------------------------- |
+|   M1 | Project bootstrap (config & owners)       | A     | YYYY-MM-DD | YYYY-MM-DD | Design Lead, Eng Lead           | `project-config.md`, `OWNERS.md`                | Project-config complete + owners assigned               |
+|   M2 | Tokens skeleton + build pipeline          | B     | YYYY-MM-DD | YYYY-MM-DD | Token Owner, Eng Lead           | `tokens/tokens.json`, `scripts/build-tokens.js` | Token schema validated + dist artifacts built           |
+|   M3 | Button + Input canonical docs & Storybook | B     | YYYY-MM-DD | YYYY-MM-DD | Component Owners (Button/Input) | `components/*`, Storybook stories               | Storybook published; accessibility checks pass          |
+|   M4 | Pilot migration (one flow)                | C     | YYYY-MM-DD | YYYY-MM-DD | Design Lead, Eng Lead, PM       | Migration tickets + migrated flow               | Pilot flow uses DS components; token usage >= target    |
+|   M5 | Publish packages & CI gating              | D     | YYYY-MM-DD | YYYY-MM-DD | Release Manager, Infra          | `packages/*`, CI workflows                      | Packages published; CI enforces token/schema checks     |
+|   M6 | Adoption > X% & Quarterly audit           | E     | YYYY-MM-DD | YYYY-MM-DD | DS Lead, QA                     | Metrics report                                  | Targets met (token usage, a11y, visual diff thresholds) |
+
+> Replace `YYYY-MM-DD` and `X%` with your organization’s dates and targets in `roadmap/milestones.yaml`.
 
 ---
 
-## Milestone owners (examples)
-- Phase A: Design System Lead (R), Product (A), Eng Lead (C)  
-- Phase B: Token Owner (R), Eng Lead (A), QA (C)  
-*(Update `OWNERS.md` with specific names and handles.)*
+## Gating rules (how to progress phases)
+- **Gate 1 (A→B):** `project-config.md` complete, owners assigned, and kickoff meeting held.  
+- **Gate 2 (B→C):** Tokens built and Button + Input live in Storybook; CI token validation present.  
+- **Gate 3 (C→D):** Pilot migration completed and measurement baseline collected.  
+- **Gate 4 (D→E):** Packages published and adoption > target, or executive approval for continued rollout.
 
 ---
 
-## Risk & mitigation (short)
-- **Risk:** Token churn causes instability. → *Mitigation:* Strict deprecation policy, staging, and migration mapping files (`tokens/migrations/*`).  
-- **Risk:** Low adoption. → *Mitigation:* Office hours, starter examples, and onboarding playbooks (see `playbooks/`).
+## Timeline guidance & buffer
+- Use conservative buffers: each milestone should include an estimate and a 20–40% buffer for integration friction.  
+- Treat dates in `roadmap/milestones.yaml` as living; update via PR when changed.
 
 ---
 
-## How to use this roadmap
-- A designer: follow Phase A tasks in the first week (see `playbooks/onboarding/first-30-mins.md`).  
-- Product: use the milestones to prioritize migration tickets.  
-- Engineers: use the release cadence to plan integration sprints.
+## How teams consume this roadmap
+- Designers: follow the milestone list to schedule component authoring and Figma updates.  
+- Engineers: read milestone deliverables to schedule integration sprints.  
+- QA: plan test coverage for pilot flows at M4.  
+- Product: use success criteria to accept milestone outcomes.
 
 ---
 
 ## Change log
-- _YYYY-MM-DD_ — Roadmap created for initial bootstrapping.
+- _YYYY-MM-DD_ — Expanded roadmap and added milestones YAML and 90-day playbook.

@@ -1,0 +1,105 @@
+# What this file is:
+# Machine-readable milestones for the design system roadmap.
+# Edit by: Design System Lead or milestone owners. Update via PR.
+# Approvals required: owners listed per milestone (see governance/pr-approval-matrix.md).
+
+milestones:
+  - id: M1
+    name: Project bootstrap (config & owners)
+    phase: A
+    start_date: "2025-11-17"
+    end_date: "2025-11-24"
+    owners:
+      - design_lead: "@design-lead"
+      - eng_lead: "@eng-lead"
+    deliverables:
+      - project-config.md
+      - OWNERS.md
+      - README-PROJECT.md
+    success_criteria:
+      - "project-config.md populated and approved"
+      - "owners listed in OWNERS.md"
+    status: proposed
+
+  - id: M2
+    name: Tokens skeleton and build pipeline
+    phase: B
+    start_date: "2025-11-25"
+    end_date: "2025-12-12"
+    owners:
+      - token_owner: "@token-owner"
+      - eng_lead: "@eng-lead"
+    deliverables:
+      - tokens/tokens.json
+      - tokens/tokens.schema.json
+      - scripts/build-tokens.js
+    success_criteria:
+      - "token schema validated in CI"
+      - "dist artifacts generated (css/xml/xcassets)"
+    status: proposed
+
+  - id: M3
+    name: Button + Input canonical docs & Storybook
+    phase: B
+    start_date: "2025-12-01"
+    end_date: "2025-12-20"
+    owners:
+      - component_owner_button: "@owner-button"
+      - component_owner_input: "@owner-input"
+    deliverables:
+      - components/Button/docs.md
+      - components/Input/docs.md
+      - storybook/stories/Button.stories.mdx
+      - storybook/stories/Input.stories.mdx
+    success_criteria:
+      - "Storybook published with Button & Input"
+      - "A11y checks show no critical issues"
+    status: proposed
+
+  - id: M4
+    name: Pilot migration (one flow)
+    phase: C
+    start_date: "2026-01-05"
+    end_date: "2026-01-31"
+    owners:
+      - design_lead: "@design-lead"
+      - eng_lead: "@eng-lead"
+      - product: "@product"
+    deliverables:
+      - migration tickets (one flow)
+      - migration-log.md
+    success_criteria:
+      - "Pilot flow implemented using DS components"
+      - "Token usage coverage for the flow >= 70%"
+    status: proposed
+
+  - id: M5
+    name: Publish packages & CI gating
+    phase: D
+    start_date: "2026-02-01"
+    end_date: "2026-02-28"
+    owners:
+      - release_manager: "@release-manager"
+      - infra: "@infra-team"
+    deliverables:
+      - packages/tokens
+      - ci/workflows/publish-packages.yml
+    success_criteria:
+      - "Packages published to registry"
+      - "CI enforces token schema and visual checks"
+    status: proposed
+
+  - id: M6
+    name: Adoption target & quarterly audit
+    phase: E
+    start_date: "2026-03-01"
+    end_date: "2026-03-31"
+    owners:
+      - ds_lead: "@design-lead"
+      - qa: "@qa-a11y"
+    deliverables:
+      - metrics/token-usage-baseline.csv
+      - audit/quarterly-audit-results.md
+    success_criteria:
+      - "Adoption targets met or roadmap adjusted with rationale"
+    status: proposed
