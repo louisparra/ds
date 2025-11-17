@@ -1,0 +1,37 @@
+# What this file is:
+# Canonical list of GitHub labels for the Design System template repository.
+# Edit by: Docs Owner or Design System Lead. Update when triage or workflow needs change.
+# Approvals: Design System Lead and Engineering Lead must approve label schema changes.
+
+labels:
+  - name: bug
+    color: d73a4a
+    description: "Something isn't working. Use for reproducible defects. (See .github/ISSUE_TEMPLATE/bug_report.md)"
+  - name: feature
+    color: 0e8a16
+    description: "New feature or enhancement requested. Use for proposals that add capability. (See .github/ISSUE_TEMPLATE/feature_request.md)"
+  - name: ds-change
+    color: 5319e7
+    description: "Design-system change (tokens, components, theming). Requires approvals per governance/pr-approval-matrix.md and .github/ISSUE_TEMPLATE/design-system-change.md"
+  - name: security
+    color: ffcc00
+    description: "Security / vulnerability report. Do NOT discuss publicly — follow SECURITY.md private disclosure process."
+  - name: documentation
+    color: 0366d6
+    description: "Docs changes or improvements (guides, READMEs, Zeroheight)."
+  - name: triage
+    color: ffa500
+    description: "Needs triage — maintainers should review and assign priority/labels."
+  - name: help wanted
+    color: 008672
+    description: "Good-first-contribution or help requested from community; maintainers should confirm and assign."
+  - name: ds-priority/high
+    color: b60205
+    description: "High priority; impacts many consumers or blocks release."
+  - name: ds-severity/critical
+    color: 5319e7
+    description: "Critical severity: production-impacting or security-critical. Fast-track review and notify @release-manager/@eng-lead."
+
+# Notes:
+# - Replace placeholder team/handle names in templates and CODEOWNERS to match your org.
+# - Keep label names and colors stable; if you change semantics, update governance/pr-approval-matrix.md and PR templates accordingly.
