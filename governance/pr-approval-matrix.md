@@ -45,4 +45,4 @@ Use this matrix when opening a PR: include the required reviewers listed below.
 ---
 
 ## Mapping to CODEOWNERS
-Use the rows above to inform entries in `.github/CODEOWNERS` (this file exists in the root and should mirror this matrix).
+Use the rows above to inform entries in [CODEOWNERS](../.github/CODEOWNERS) (this file exists in the root and should mirror this matrix).

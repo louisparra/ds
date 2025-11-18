@@ -26,13 +26,13 @@ This document explains what each role does and provides concrete examples of tas
 
 **Examples**
 - Approve a breaking token rename that affects multiple teams.
-- Run monthly DS health review and update `ROADMAP.md`.
+- Run monthly DS health review and update [roadmap](../ROADMAP.md).
 
 ---
 
 ## Token Owner
 **Primary responsibilities**
-- Maintains `tokens/tokens.json` and token schema.
+- Maintains [tokens.json](../tokens/tokens.json) and token schema.
 - Reviews and approves token-change PRs.
 - Coordinates migration plans for deprecated tokens.
 
@@ -48,7 +48,7 @@ This document explains what each role does and provides concrete examples of tas
 - Reviews high-impact technical changes.
 
 **Examples**
-- Approve `.github/workflows/ci-generate-and-publish-artifacts.yml` changes.
+- Approve [ci-generate-and-publish-artifacts.yml](../.github/workflows/ci-generate-and-publish-artifacts.yml) changes.
 
 ---
 
@@ -74,7 +74,7 @@ This document explains what each role does and provides concrete examples of tas
 
 ## Docs Owner
 **Primary responsibilities**
-- Maintains `docs/` and publishing to Zeroheight/GitHub Pages.
+- Maintains [docs/](../docs/) and publishing to Zeroheight/GitHub Pages.
 - Ensures narrative docs are aligned with canonical component docs.
 
 **Examples**
@@ -84,11 +84,12 @@ This document explains what each role does and provides concrete examples of tas
 
 ## Release Manager
 **Primary responsibilities**
+
 - Coordinates release pipeline and writes release notes.
 - Publishes packages to registries according to release cadence.
 
 **Examples**
-- Run `scripts/publish-packages.sh` and create a release tag, then notify stakeholders.
+- Run [publish-packages.sh](../scripts/publish-packages.sh) and create a release tag, then notify stakeholders.
 
 ---
 

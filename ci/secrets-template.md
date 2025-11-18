@@ -20,24 +20,24 @@ This file documents repository secrets the CI workflows may require. **Do not** 
 
 - `NPM_TOKEN`  
   - **Purpose:** Publish packages to npm or internal registry.  
-  - **Used by:** `ci-generate-and-publish-artifacts.yml` (publish job).  
+  - **Used by:** [ci-generate-and-publish-artifacts.yml](../.github/workflows/ci-generate-and-publish-artifacts.yml) (publish job).  
   - **Owner / approver:** Release Manager, Eng Lead.  
   - **Notes:** Add as repository secret (not in PRs). Ensure token has the minimal scope necessary.
 
 - `STORYBOOK_DEPLOY_TOKEN`  
   - **Purpose:** Deploy Storybook to a hosting provider or deploy service.  
-  - **Used by:** `ci-storybook-deploy.yml` (deploy step).  
+  - **Used by:** [ci-storybook-deploy.yml](../.github/workflows/ci-storybook-deploy.yml) (deploy step).  
   - **Owner / approver:** Docs Owner / Release Manager.  
   - **Notes:** Provider-specific (Chromatic, Netlify, S3 + CI user). Prefer read-limited tokens if provider supports.
 
 - `GH_PAGES_TOKEN`  
   - **Purpose:** Optional token for deploying to GitHub Pages (if using a deploy action requiring a token).  
-  - **Used by:** `ci-storybook-deploy.yml` (alternative deploy path).  
+  - **Used by:** [ci-storybook-deploy.yml](../.github/workflows/ci-storybook-deploy.yml) (alternative deploy path).  
   - **Owner / approver:** Infra / Release Manager.
 
 - `CHROMATIC_PROJECT_TOKEN` *(optional)*  
   - **Purpose:** Upload Storybook to Chromatic for visual regression testing.  
-  - **Used by:** `ci-storybook-deploy.yml` or separate Chromatic job.  
+  - **Used by:** [ci-storybook-deploy.yml](../.github/workflows/ci-storybook-deploy.yml) or separate Chromatic job.  
   - **Owner / approver:** QA / Release Manager.
 
 - `STORAGE_SERVICE_KEY` *(optional, provider-specific)*  

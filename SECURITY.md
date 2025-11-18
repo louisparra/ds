@@ -17,7 +17,7 @@ Design System Lead and Security.
 If you discover a security vulnerability in this template, please report it privately.
 
 ## How to report
-- Preferred: email `security@yourcompany.example` with subject `Security report: design-system-template` and include reproduction steps.
+- Preferred: email [security@yourcompany.example](security@yourcompany.example) with subject `Security report: design-system-template` and include reproduction steps.
 - If email is unavailable, open a private issue and tag `@security` (if allowed by your platform).
 
 ## What to include

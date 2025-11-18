@@ -23,28 +23,28 @@ Use this template to:
 ---
 
 ## Quick links (where to start)
-- **Project config:** `project-config.md` (fill during kickoff)  
-- **Roadmap & milestones:** `ROADMAP.md`  
-- **Owners & governance:** `OWNERS.md` and `governance/`  
-- **Tokens (canonical):** `tokens/tokens.json` 
-- **Design view:** `figma/` (Figma mapping files)  
-- **Developer view:** `storybook/` and `packages/`
+- **Project config:** [project-config.md](project-config.md) (fill during kickoff)
+- **Roadmap & milestones:** [ROADMAP.md](ROADMAP.md)
+- **Owners & governance:** [OWNERS.md](OWNERS.md) and [governance](governance/)
+- **Tokens (canonical):** [tokens.json](tokens/tokens.json)
+- **Design view:** [figma](figma/) (Figma mapping files)
+- **Developer view:** [storybook](storybook/) and [packages](packages/)
 
 ---
 
 ## How to use this template (fast path)
-1. Create a new branch for your initial edits: `ds/top-level-scaffold`.  
-2. Fill `project-config.md` and `OWNERS.md`.  
-3. Follow the Roadmap (see `ROADMAP.md`) to implement milestones.
+1. Create a new branch for your initial edits: `ds/top-level-scaffold`.
+2. Fill [project-config.md](project-config.md) and [OWNERS.md](OWNERS.md).
+3. Follow the [roadmap](ROADMAP.md) to implement milestones.
 
-Branching policy: see `/BRANCHING.md`.
+Branching policy: see [BRANCHING.md](BRANCHING.md).
 
 ---
 
 ## Contributing
-See `CONTRIBUTING.md` for contribution flow, and `CODE_OF_CONDUCT.md` for community expectations.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution flow, and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for community expectations.
 
 ---
 
 ## Support
-If you need help, ping the Design System Lead listed in `OWNERS.md`.
+If you need help, ping the Design System Lead listed in [OWNERS.md](OWNERS.md).

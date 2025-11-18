@@ -16,14 +16,16 @@ Design System Lead and Docs Owner.
 
 This folder contains the machine-readable and human templates for roadmap milestones.
 
-Files:
-- `milestones.yaml` — canonical list of milestones (keys: id, name, phase, start_date, end_date, owners, deliverables, success_criteria, status). Edit via PR.
-- `README.md` — this file (how to use the folder).
-- `../ROADMAP.md` — human-readable single-page roadmap that summarizes milestones.
+**Files**
+
+- [milestones.yaml](milestones.yaml) — canonical list of milestones (keys: id, name, phase, start_date, end_date, owners, deliverables, success_criteria, status). Edit via PR.
+- README.md — this file (how to use the folder).
+- [ROADMAP.md](../ROADMAP.md) — human-readable single-page roadmap that summarizes milestones.
 
 **Editing rules**
-- Edit `roadmap/milestones.yaml` for structured updates (dates, owners, status).  
-- Use `templates/milestone-template.md` to draft a detailed milestone description before committing.  
+
+- Edit [milestones.yaml](milestones.yaml) for structured updates (dates, owners, status).  
+- Use [milestone template](../templates/milestone-template.md) to draft a detailed milestone description before committing.  
 - Always change via branch + PR; request approvals from owners listed in the milestone.
 
 **Consumption**

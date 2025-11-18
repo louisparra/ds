@@ -20,7 +20,7 @@ This playbook connects the roadmap milestones to concrete weekly activities for 
 
 ## Week 0 (Kickoff — aligns to M1)
 **Designers**
-- Fill `project-config.md` and confirm Figma access.
+- Fill [project-config.md](../../project-config.md) and confirm Figma access.
 - Copy Figma starter library and map brand tokens.
 
 **Developers**
@@ -40,11 +40,11 @@ This playbook connects the roadmap milestones to concrete weekly activities for 
 
 ## Weeks 1–3 (Tokens skeleton & Core components — aligns to M2/M3)
 **Designers**
-- Populate token values in `tokens/tokens.json` (semantic tokens only).
+- Populate token values in [tokens.json](../../tokens/tokens.json) (semantic tokens only).
 - Create Button & Input variants in Figma.
 
 **Developers**
-- Implement `scripts/build-tokens.js` and generate `packages/tokens/dist/` artifacts.
+- Implement [build-tokens.js](../../scripts/build-tokens.js) and generate `packages/tokens/dist/` artifacts.
 - Create initial Storybook stories for Button & Input.
 
 **QA**
@@ -82,5 +82,5 @@ This playbook connects the roadmap milestones to concrete weekly activities for 
 ---
 
 ## Notes & tips
-- Keep milestones small and measurable. If a milestone grows, split it into smaller ones using `templates/milestone-template.md`.  
+- Keep milestones small and measurable. If a milestone grows, split it into smaller ones using the [milestone template](../../templates/milestone-template.md).
 - Use this playbook as the baseline; adapt tasks based on team size and priorities.

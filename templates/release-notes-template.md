@@ -27,14 +27,14 @@ _A short summary of what this release contains (1–2 lines)._
 
 ## Highlights (what's new)
 - Feature: Brief description.
-- Token: New tokens added (`tokens/tokens.json`).
+- Token: New tokens added ([tokens.json](../tokens/tokens.json)).
 - Component: New or improved components (list components).
 
 ---
 
 ## Breaking changes (if any)
 - Describe breaking changes and the effect on consumers.
-- Point to migration mappings in `tokens/migrations/` (file names).
+- Point to migration mappings in [tokens/migrations/](../tokens/migrations/) (file names).
 
 ---
 

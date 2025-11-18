@@ -54,8 +54,8 @@ Design System Lead and Engineering Lead must approve the final answers (add thei
 ---
 
 ## Tokens & design-system pipeline
-- **Canonical token format accepted?** (we use `tokens/tokens.json` by default)  
-  - `[ ]` Yes — we will use `tokens/tokens.json` as source of truth  
+- **Canonical token format accepted?** (we use [tokens.json](tokens/tokens.json) by default)  
+  - `[ ]` Yes — we will use [tokens.json](tokens/tokens.json) as source of truth  
   - `[ ]` No — preferred format: `_________`
 
 - **Token pipeline preference**:  
@@ -145,5 +145,5 @@ Design System Lead and Engineering Lead must approve the final answers (add thei
 ---
 
 ## How to use this file
-- Save this file to the repository root. It is used by the bootstrap script (`scripts/bootstrap-template.js`) when run in `--init` mode to create a filled config.  
+- Save this file to the repository root. It is used by the [bootstrap script](scripts/bootstrap-template.js) when run in `--init` mode to create a filled config.  
 - Non-developers: you can fill this directly in GitHub using **Add file → Create new file** and commit to a branch, then open a PR for approvals.

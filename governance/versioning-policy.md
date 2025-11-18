@@ -63,14 +63,14 @@ This document defines how the design system versions artifacts (tokens, componen
 - Steps:
   1. Open a RFC-style PR including: rationale, migration mapping, compatibility plan, migration scripts (if possible), deprecation timeline.  
   2. Run broad review (design, eng, QA, product).  
-  3. Create migration mapping files under `tokens/migrations/`.  
+  3. Create migration mapping files under [tokens/migrations/](../tokens/migrations/).
   4. Merge to a release branch `release/vX.0.0` and publish with clear communications and migration guides.
 
 ---
 
 ## Release cadence & tagging
 - **Default cadence:** Minor/patch releases every 2–4 weeks; major releases only as required.  
-- **Tagging:** use annotated Git tags: `v1.2.3` with release notes. Include `CHANGELOG.md` update.  
+- **Tagging:** use annotated Git tags: `v1.2.3` with release notes. Include [CHANGELOG.md](../CHANGELOG.md) update.  
 - **Draft release:** use `scripts/create-release-draft.js --name vX.Y.Z` to scaffold release notes (see script).
 
 ---
@@ -94,7 +94,7 @@ This document defines how the design system versions artifacts (tokens, componen
 
 ## Enforcement & automation
 - CI pipelines must validate SemVer bump consistency vs. changes (future step: add a bot or script to check version changes).  
-- PRs that change tokens must include `tokens/tokens.json` diff and pass `tokens/tokens.schema.json` validation (see Phase 2 artifacts).
+- PRs that change tokens must include [tokens.json](../tokens/tokens.json) diff and pass [tokens.schema.json](../tokens/tokens.schema.json) validation.
 
 ---
 

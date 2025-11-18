@@ -17,7 +17,7 @@ Design System Lead and Engineering Lead.
 Thanks for contributing! This document explains the simplest, safest way to contribute.
 
 ## 1. Create a branch
-Follow the branching policy in `BRANCHING.md`. Example:
+Follow the [branching](BRANCHING.md) policy. Example:
 ```bash
 git checkout -b ds/your-feature-short
 ```
@@ -48,7 +48,7 @@ chore(docs): add CONTRIBUTING.md
 
 ## 5. Reviewer checklist
 
-- Does this change affect tokens, components, CI, or governance? If yes, include owner approvals per `governance/pr-approval-matrix.md`.
+- Does this change affect tokens, components, CI, or governance? If yes, include owner approvals per [PR Approval Matrix](governance/pr-approval-matrix.md).
 - Ensure no secrets or PII are added.
 
 ## 6. After merge

@@ -17,8 +17,8 @@ Engineering Lead and Infra team.
 This folder documents the CI skeleton used by the repository.
 
 ## Workflows included
-- `.github/workflows/ci-validate.yml` — runs on PRs and branch pushes; validates tokens, lint/tests, and Storybook smoke build.
-- `.github/workflows/publish-packages.yml` — publishes on annotated tags `v*.*.*` (skeleton).
+- [ci-validate.yml](../.github/workflows/ci-validate.yml) — runs on PRs and branch pushes; validates tokens, lint/tests, and Storybook smoke build.
+- [publish-packages.yml](../.github/workflows/publish-packages.yml) — publishes on annotated tags `v*.*.*` (skeleton).
 
 ## Running checks locally
 - Node 18+ recommended.
