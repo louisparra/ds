@@ -1,5 +1,5 @@
 {
-  "_comment": "What this file is: minimal package.json for repo scripts. Edit by maintainers. Update when scripts or package metadata change. Approvals: Eng Lead.",
+  "_comment": "Updated: added CI helper scripts (token-validate, build-storybook, publish-packages). Edit by maintainers; approvals: Eng Lead.",
   "name": "design-system-template",
   "version": "0.0.0",
   "description": "Template repo for a production-ready design system (tokens, components, docs, CI).",
@@ -8,7 +8,10 @@
     "test": "echo \"No tests configured yet\" && exit 0",
     "lint": "echo \"No linter configured yet\"",
     "build": "echo \"No build configured for template\"",
-    "create-release-draft": "node scripts/create-release-draft.js --help"
+    "create-release-draft": "node scripts/create-release-draft.js --help",
+    "token-validate": "node scripts/token-validate.js",
+    "build-storybook": "node scripts/build-storybook.js",
+    "publish-packages": "bash scripts/publish-packages.sh"
   },
   "author": "",
   "license": "MIT"

@@ -1,0 +1,44 @@
+# What this file is:
+# Publish workflow skeleton. Triggered on annotated tag creation (v*.*.*). Builds artifacts and runs publish script.
+# Edit by: Release Manager or Infra team. Update when publishing details/registry change.
+# When to update (example): change registry or add signing steps.
+# Who must approve changes: Eng Lead and Release Manager.
+
+name: Publish — packages
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  publish:
+    name: Build & Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org/'
+
+      - name: Install dependencies
+        run: |
+          if [ -f package.json ]; then npm ci; else echo "No package.json"; fi
+
+      - name: Build (placeholder)
+        run: |
+          echo "Build step: add package build commands here"
+          # example: npm run build
+
+      - name: Run publish script
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN || '' }}
+        run: |
+          if [ -f scripts/publish-packages.sh ]; then bash scripts/publish-packages.sh; else echo "No publish script found"; fi
+
+      - name: Create Release Notes (optional)
+        run: echo "Release notes step can be automated to attach RELEASE_NOTES_DRAFT.md"
