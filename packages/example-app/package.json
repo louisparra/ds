@@ -1,0 +1,11 @@
+
+{
+  "_comment": "Example app manifest to demonstrate consuming tokens and UI packages. Edit by Docs Owner or example author. Approvals: Design Lead.",
+  "name": "@ds/example-app",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "echo \"This is a static example. Open index.html in a browser.\""
+  },
+  "license": "MIT"
+}

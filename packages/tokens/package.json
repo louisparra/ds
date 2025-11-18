@@ -1,0 +1,15 @@
+{
+  "_comment": "Tokens package manifest: small package to hold canonical tokens and consumer-facing entrypoints. Edit by Token Owner. Update when package name or build changes. Approvals: Token Owner & Eng Lead.",
+  "name": "@ds/tokens",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist/tokens.json",
+  "files": [
+    "dist/*"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build-tokens.js",
+    "validate": "node ../../scripts/token-validate.js"
+  },
+  "license": "MIT"
+}

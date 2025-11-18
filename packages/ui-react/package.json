@@ -1,0 +1,14 @@
+{
+  "_comment": "UI React package scaffold. Edit by Component Owners. Update when API changes. Approvals: Component Owner & Eng Lead.",
+  "name": "@ds/ui-react",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.js",
+  "scripts": {
+    "build": "echo \"Build step for @ds/ui-react (placeholder)\"",
+    "test": "echo \"No tests configured for @ds/ui-react\""
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "license": "MIT"
+}

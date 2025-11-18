@@ -1,13 +1,18 @@
 {
-  "_comment": "Updated: added token/build helper scripts and note about Ajv. Edit by maintainers; approvals: Eng Lead.",
+  "_comment": "Updated: enable simple npm workspaces and add monorepo helper scripts. Edit by maintainers; approvals: Eng Lead.",
   "name": "design-system-template",
   "version": "0.0.0",
   "description": "Template repo for a production-ready design system (tokens, components, docs, CI).",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
+    "bootstrap": "npm ci",
+    "build:packages": "bash scripts/build-packages.sh",
     "test": "echo \"No tests configured yet\" && exit 0",
     "lint": "echo \"No linter configured yet\"",
-    "build": "echo \"No build configured for template\"",
+    "build": "echo \"No root build configured\"",
     "create-release-draft": "node scripts/create-release-draft.js --help",
     "token-validate": "node scripts/token-validate.js",
     "build-storybook": "node scripts/build-storybook.js",
@@ -17,6 +22,6 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "ajv": "^8.17.1"
+    "ajv": "^8.12.0"
   }
 }
