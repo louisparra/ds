@@ -1,0 +1,19 @@
+{
+  "color": {
+    "primary": {
+      "value": "#0a84ff",
+      "type": "color",
+      "description": "Primary brand color"
+    },
+    "background": {
+      "value": "#ffffff",
+      "type": "color",
+      "description": "Default background"
+    }
+  },
+  "spacing": {
+    "1": { "value": "4px", "type": "spacing" },
+    "2": { "value": "8px", "type": "spacing" },
+    "3": { "value": "16px", "type": "spacing" }
+  }
+}

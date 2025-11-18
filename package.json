@@ -1,5 +1,5 @@
 {
-  "_comment": "Updated: added CI helper scripts (token-validate, build-storybook, publish-packages). Edit by maintainers; approvals: Eng Lead.",
+  "_comment": "Updated: added token/build helper scripts and note about Ajv. Edit by maintainers; approvals: Eng Lead.",
   "name": "design-system-template",
   "version": "0.0.0",
   "description": "Template repo for a production-ready design system (tokens, components, docs, CI).",
@@ -11,8 +11,12 @@
     "create-release-draft": "node scripts/create-release-draft.js --help",
     "token-validate": "node scripts/token-validate.js",
     "build-storybook": "node scripts/build-storybook.js",
+    "build-tokens": "node scripts/build-tokens.js",
     "publish-packages": "bash scripts/publish-packages.sh"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "ajv": "^8.17.1"
+  }
 }

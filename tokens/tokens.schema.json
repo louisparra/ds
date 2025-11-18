@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Design system tokens schema",
+  "description": "Top-level schema for tokens/tokens.json. Each top-level key (category) contains token keys whose values are objects with at least a `value` field.",
+  "type": "object",
+  "patternProperties": {
+    "^.+$": {
+      "type": "object",
+      "description": "Category object (e.g., color, spacing, radius)",
+      "patternProperties": {
+        "^.+$": {
+          "type": "object",
+          "required": ["value"],
+          "properties": {
+            "value": {
+              "description": "Token value. Can be string, number, object, or array depending on token type.",
+              "oneOf": [
+                { "type": "string" },
+                { "type": "number" },
+                { "type": "object" },
+                { "type": "array" }
+              ]
+            },
+            "type": { "type": "string", "description": "Optional token type (color, size, radius, etc.)" },
+            "description": { "type": "string" },
+            "deprecated": { "type": "boolean" },
+            "deprecatedDate": { "type": "string", "format": "date" },
+            "replacement": { "type": "string" }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true,
+  "examples": [
+    {
+      "color": {
+        "primary": { "value": "#0a84ff", "type": "color", "description": "Primary brand color" }
+      },
+      "spacing": {
+        "1": { "value": "4px", "type": "spacing" },
+        "2": { "value": "8px", "type": "spacing" }
+      }
+    }
+  ]
+}
