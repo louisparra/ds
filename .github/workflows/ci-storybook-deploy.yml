@@ -1,0 +1,72 @@
+# What this file is:
+# Storybook build and (optionally) deploy workflow. Build runs on push to main and on manual dispatch.
+# Deploy step is gated: it only runs if the named secret is set; otherwise it logs a safe skip.
+# Edit by: Component Owners or Infra; update when deployment provider or tokens change.
+# When to update (example): add Chromatic/Netlify/GH-Pages integration details.
+# Approvals: Eng Lead, Release Manager, and Infra should approve changes.
+
+name: CI — Storybook build & deploy
+
+on:
+  push:
+    branches:
+      - ds/main
+  workflow_dispatch: {}
+
+jobs:
+  build-storybook:
+    name: Build Storybook
+    runs-on: ubuntu-latest
+    outputs:
+      built: ${{ steps.check.outputs.built }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          if [ -f package.json ]; then npm ci; else echo "No package.json; skipping"; fi
+
+      - name: Build Storybook (if configured)
+        id: check
+        run: |
+          if npm run | grep -q "build-storybook"; then
+            echo "Running npm run build-storybook..."
+            npm run build-storybook
+            echo "::set-output name=built::true"
+          else
+            echo "No build-storybook script configured; marking built=false"
+            echo "::set-output name=built::false"
+          fi
+
+  deploy-storybook:
+    name: Deploy Storybook (gated)
+    runs-on: ubuntu-latest
+    needs: build-storybook
+    if: needs.build-storybook.outputs.built == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure deploy secret present and deploy accordingly
+        env:
+          STORYBOOK_DEPLOY_TOKEN: ${{ secrets.STORYBOOK_DEPLOY_TOKEN }}
+          GH_PAGES_TOKEN: ${{ secrets.GH_PAGES_TOKEN }} # optional
+        run: |
+          # Prefer an explicit deploy token (STORYBOOK_DEPLOY_TOKEN), else GH_PAGES_TOKEN (for GH Pages)
+          if [ -n "${STORYBOOK_DEPLOY_TOKEN:-}" ]; then
+            echo "STORYBOOK_DEPLOY_TOKEN present — run provider-specific deploy (implement your deploy here)."
+            # Example placeholder: npm run deploy-storybook --token $STORYBOOK_DEPLOY_TOKEN
+            echo "Deploy command placeholder — replace with real provider CLI"
+          elif [ -n "${GH_PAGES_TOKEN:-}" ]; then
+            echo "GH_PAGES_TOKEN present — you can deploy to GitHub Pages. Replace with gh-pages or similar."
+            # Example placeholder: npx gh-pages -d storybook-static
+            echo "GH Pages deploy placeholder"
+          else
+            echo "No deploy token found. Skipping deploy step. To enable deploy, add STORYBOOK_DEPLOY_TOKEN or GH_PAGES_TOKEN as repository secret."
+          fi

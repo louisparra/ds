@@ -1,0 +1,54 @@
+# What this file is:
+# Lightweight CI job that runs installs, build (if present), and tests (if present) on PRs and pushes.
+# Edit by: Eng Lead or Infra. Update when build/test commands change.
+# When to update (example): add new test steps or change Node version.
+# Approvals: Eng Lead and Infra team must approve changes.
+
+name: CI — build & test
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          if [ -f package.json ]; then
+            echo "Installing dependencies..."
+            npm ci
+          else
+            echo "No package.json found; skipping install"
+          fi
+
+      - name: Run build (if configured)
+        run: |
+          if npm run | grep -q "build"; then
+            echo "Running npm run build..."
+            npm run build
+          else
+            echo "No build script in package.json; skipping"
+          fi
+
+      - name: Run tests (if configured)
+        run: |
+          if npm run | grep -q "test"; then
+            echo "Running npm test..."
+            npm test
+          else
+            echo "No test script in package.json; skipping"
+          fi

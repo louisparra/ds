@@ -1,0 +1,75 @@
+# What this file is:
+# Tag-triggered workflow that generates artifacts (tokens transforms, builds) and publishes packages if NPM_TOKEN is configured.
+# Edit by: Release Manager or Infra. Update when publish process or registry changes.
+# When to update (example): adjust registry URL or add signing steps.
+# Approvals: Release Manager and Eng Lead.
+
+name: CI — generate & publish artifacts
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  prepare:
+    name: Prepare & Build Artifacts
+    runs-on: ubuntu-latest
+    outputs:
+      built: ${{ steps.build.outputs.built }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install deps
+        run: |
+          if [ -f package.json ]; then npm ci; else echo "No package.json; skipping"; fi
+
+      - name: Build tokens and artifacts (if scripts present)
+        id: build
+        run: |
+          built=false
+          if [ -f scripts/build-tokens.js ]; then
+            echo "Building tokens..."
+            node scripts/build-tokens.js
+            built=true
+          fi
+          if npm run | grep -q "build"; then
+            echo "Running npm run build..."
+            npm run build
+            built=true
+          fi
+          echo "built=${built}" >> $GITHUB_OUTPUT
+
+  publish:
+    name: Publish (gated by NPM_TOKEN)
+    runs-on: ubuntu-latest
+    needs: prepare
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify NPM_TOKEN present
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -n "${NPM_TOKEN:-}" ]; then
+            echo "NPM_TOKEN found — proceeding to publish (script must handle auth)."
+            # Use package script if present
+            if npm run | grep -q "publish-packages"; then
+              echo "Running npm run publish-packages..."
+              npm run publish-packages
+            elif [ -f scripts/publish-packages.sh ]; then
+              echo "Running scripts/publish-packages.sh..."
+              bash scripts/publish-packages.sh
+            else
+              echo "Publish script not found. Add scripts/publish-packages.sh or npm script publish-packages."
+            fi
+          else
+            echo "NPM_TOKEN secret not set. Skipping publish step. To enable publishing, add NPM_TOKEN to repository secrets and re-run."
+          fi
