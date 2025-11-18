@@ -1,33 +1,38 @@
 /*
 What this file is:
-A simple token build script. Reads tokens/tokens.json and emits:
- - tokens/dist/tokens.json (flattened dot.path -> value)
- - tokens/dist/tokens.css (CSS custom properties under :root)
+Token build script that resolves the repository root and writes package artifacts to packages/tokens/dist.
+It prefers the canonical repo-level tokens/tokens.json, with a fallback to package-local tokens.
 
 Who should edit it:
-Token Owner or developer responsible for build pipelines. Expand transforms (Style Dictionary, platform outputs) as needed.
+Token Owner or developer. Update when token source location or dist paths change.
 
 When to update (example):
-Update when output formats or naming conventions change.
+Change if you want tokens stored under packages/tokens instead of repo root.
 
 Who must approve changes:
 Token Owner and Engineering Lead.
 
 Usage:
-# Run locally (Node 18+)
+# from repo root
 node scripts/build-tokens.js
 
 Expected outputs:
-- tokens/dist/tokens.json  (flattened token values)
-- tokens/dist/tokens.css   (CSS variables)
-If tokens/tokens.json missing, the script exits with a descriptive message.
+- packages/tokens/dist/tokens.json
+- packages/tokens/dist/tokens.css
 */
 
 const fs = require('fs');
 const path = require('path');
 
-const TOKENS_IN = path.join(process.cwd(), 'tokens', 'tokens.json');
-const DIST_DIR = path.join(process.cwd(), 'tokens', 'dist');
+// Determine repo-root (scripts are in <repo>/scripts)
+const REPO_ROOT = path.resolve(__dirname, '..');
+// Candidate token source paths (prefer repo-level)
+const TOKENS_REPO_PATH = path.join(REPO_ROOT, 'tokens', 'tokens.json');
+// fallback: package-local (useful if someone runs script inside package)
+const TOKENS_PACKAGE_LOCAL = path.join(process.cwd(), 'tokens', 'tokens.json');
+
+// Output (write into the tokens package dist so package consumers can read it)
+const TOKEN_PKG_DIST = path.join(REPO_ROOT, 'packages', 'tokens', 'dist');
 
 function ensureDir(dir) {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -38,15 +43,12 @@ function flatten(obj, prefix = []) {
   Object.keys(obj).forEach((k) => {
     const val = obj[k];
     if (val && typeof val === 'object' && 'value' in val && Object.keys(val).length >= 1) {
-      // leaf token object with a `value`
       const key = [...prefix, k].join('.');
       res[key] = val.value;
     } else if (val && typeof val === 'object') {
-      // nested category
       const nested = flatten(val, [...prefix, k]);
       Object.assign(res, nested);
     } else {
-      // unexpected scalar; still add
       const key = [...prefix, k].join('.');
       res[key] = val;
     }
@@ -57,7 +59,6 @@ function flatten(obj, prefix = []) {
 function toCssVars(flatTokens) {
   const lines = [':root {'];
   Object.keys(flatTokens).forEach((k) => {
-    // transform dot.path to --dot-path
     const varName = '--' + k.replace(/\./g, '-');
     const value = flatTokens[k];
     lines.push(`  ${varName}: ${value};`);
@@ -74,31 +75,48 @@ function writeText(filePath, text) {
   fs.writeFileSync(filePath, text, 'utf8');
 }
 
+function readTokensFile(p) {
+  try {
+    const raw = fs.readFileSync(p, 'utf8');
+    return JSON.parse(raw);
+  } catch (e) {
+    throw new Error(`Failed to read/parse ${p}: ${e.message}`);
+  }
+}
+
 function main() {
-  if (!fs.existsSync(TOKENS_IN)) {
-    console.error('tokens/tokens.json not found. Please add tokens or skip build.');
+  let srcPath = null;
+
+  if (fs.existsSync(TOKENS_REPO_PATH)) {
+    srcPath = TOKENS_REPO_PATH;
+  } else if (fs.existsSync(TOKENS_PACKAGE_LOCAL)) {
+    console.warn('WARN: repo-level tokens not found; using package-local tokens/tokens.json');
+    srcPath = TOKENS_PACKAGE_LOCAL;
+  } else {
+    console.error(
+      `ERROR: tokens/tokens.json not found.\nPlease create one at ${TOKENS_REPO_PATH} (you can copy tokens/tokens.example.json).`
+    );
     process.exit(1);
   }
 
-  const raw = fs.readFileSync(TOKENS_IN, 'utf8');
   let tokens;
   try {
-    tokens = JSON.parse(raw);
+    tokens = readTokensFile(srcPath);
   } catch (e) {
-    console.error('Failed to parse tokens/tokens.json:', e.message);
+    console.error(e.message);
     process.exit(1);
   }
 
   const flat = flatten(tokens);
-  ensureDir(DIST_DIR);
+  ensureDir(TOKEN_PKG_DIST);
 
-  const outJson = path.join(DIST_DIR, 'tokens.json');
-  const outCss = path.join(DIST_DIR, 'tokens.css');
+  const outJson = path.join(TOKEN_PKG_DIST, 'tokens.json');
+  const outCss = path.join(TOKEN_PKG_DIST, 'tokens.css');
 
   writeJson(outJson, flat);
   writeText(outCss, toCssVars(flat));
 
-  console.log(`Built tokens: ${Object.keys(flat).length} tokens`);
+  console.log(`Built tokens from ${srcPath}: ${Object.keys(flat).length} tokens`);
   console.log(`Wrote ${outJson}`);
   console.log(`Wrote ${outCss}`);
   process.exit(0);

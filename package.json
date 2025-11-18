@@ -1,5 +1,5 @@
 {
-  "_comment": "Updated: enable simple npm workspaces and add monorepo helper scripts. Edit by maintainers; approvals: Eng Lead.",
+  "_comment": "Updated: add Style Dictionary build script and dev dependency. Edit by maintainers; approvals: Eng Lead & Token Owner.",
   "name": "design-system-template",
   "version": "0.0.0",
   "description": "Template repo for a production-ready design system (tokens, components, docs, CI).",
@@ -17,11 +17,13 @@
     "token-validate": "node scripts/token-validate.js",
     "build-storybook": "node scripts/build-storybook.js",
     "build-tokens": "node scripts/build-tokens.js",
+    "build-tokens:sd": "node scripts/build-tokens-sd.js",
     "publish-packages": "bash scripts/publish-packages.sh"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "ajv": "^8.12.0"
+    "ajv": "^8.12.0",
+    "style-dictionary": "^3.1.0"
   }
 }

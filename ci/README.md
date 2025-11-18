@@ -6,7 +6,7 @@ Who should edit it:
 Infra team or Docs Owner when CI changes.
 
 When to update (example):
-Update when workflows or scripts change (e.g., add new token validation steps).
+Update when workflows or scripts change (e.g., add new SD build steps).
 
 Who must approve changes:
 Engineering Lead and Infra team.
@@ -17,28 +17,34 @@ Engineering Lead and Infra team.
 This folder documents the CI skeleton used by the repository.
 
 ## Workflows included
-- [ci-validate.yml](../.github/workflows/ci-validate.yml) — runs on PRs and branch pushes; validates tokens, lint/tests, and Storybook smoke build.
-- [publish-packages.yml](../.github/workflows/publish-packages.yml) — publishes on annotated tags `v*.*.*` (skeleton).
+- `.github/workflows/ci-validate.yml` — runs on PRs and branch pushes; validates tokens (schema), runs Style Dictionary builds, runs Storybook smoke and tests.
+- `.github/workflows/publish-packages.yml` — publishes on annotated tags `v*.*.*` (skeleton).
+- Other workflows: storybook deploy, build-and-test, etc. (scaffolded elsewhere)
 
-## Running checks locally
-- Node 18+ recommended.
-- Token validation:
-  ```bash
-  node scripts/token-validate.js
-	```
-- Storybook smoke:
-	```bash
-	node scripts/build-storybook.js
-	```
+## Style Dictionary integration
+We use Style Dictionary to transform canonical tokens into platform artifacts.
 
-## Publishing (dry-run)
+Local steps:
+```bash
+# install dependencies (Node 18+ recommended)
+npm ci
 
-- Publishing requires registry credentials and a real publish script. The template script is a no-op.
-	```bash
-	bash scripts/publish-packages.sh
-	```
+# validate tokens (schema)
+npm run token-validate
+
+# run style-dictionary build
+npm run build-tokens:sd
+
+# fallback (legacy builder)
+npm run build-tokens
+```
+
+CI notes:
+
+- CI will run `npm ci` before the SD build. The SD build will fail the job if Style Dictionary reports issues.
+- Ensure `tokens/tokens.json` exists in the branch or CI will fail; for new projects copy `tokens/tokens.example.json` to `tokens/tokens.json` in a bootstrap PR.
 
 ## Troubleshooting
 
-- If node scripts fail, check Node version and that required files exist (`tokens/tokens.json`, `storybook/stories`).
-- If CI fails on GitHub but passes locally, check that secrets (NPM_TOKEN) exist in repository settings.
+- If the SD build fails with transform errors, check the token value types — the schema helps catch common problems.
+- If SD is not installed in CI, confirm `devDependencies` are installed via `npm ci`. If missing in package.json, add `style-dictionary` to `devDependencies`.

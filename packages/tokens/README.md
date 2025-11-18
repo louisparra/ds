@@ -1,43 +1,46 @@
 <!--
 What this file is:
-README for the tokens package. Describes where canonical tokens live and how to build/use token outputs.
+README for the tokens package. Describes canonical tokens and how Style Dictionary produces platform artifacts.
 
 Who should edit it:
 Token Owner or Docs Owner.
 
 When to update (example):
-Update when build outputs or entrypoints change (e.g., change dist path).
+Update when SD config, outputs, or entrypoints change.
 
 Who must approve changes:
 Token Owner and Design System Lead.
 -->
 
-# @ds/tokens — Canonical tokens package
+# @ds/tokens — Canonical tokens package (Style Dictionary)
 
-This package contains the canonical tokens for the design system.
+This package contains the canonical tokens and the output artifacts produced by Style Dictionary.
 
-## Structure
-- [../../tokens/tokens.json](../../tokens/tokens.json) — canonical nested token source (root of repo).
-- [dist/tokens.json](dist/tokens.json) — flattened key -> value JSON created by `build`.
-- [dist/tokens.css](dist/tokens.css) — CSS custom properties output of tokens build.
+## Source
+- `tokens/tokens.json` — canonical nested token source (authored by designers/token owners).
 
-> Note: The canonical authored file is [tokens.json](../../tokens/tokens.json) at the repository root. [packages/tokens](../tokens) exists as the consumer-facing package (dist folder) and can be published later.
+## Generated outputs (via Style Dictionary)
+After running `npm run build-tokens:sd` (or `node scripts/build-tokens-sd.js`), look for:
 
-## Quick commands (from repo root)
+- `packages/tokens/dist/web/tokens.css` — CSS custom properties (use in web).
+- `packages/tokens/dist/web/tokens.json` — flattened JSON (dot.path keys).
+- `packages/tokens/dist/android/colors.xml` — Android colors.
+- `packages/tokens/dist/android/dimens.xml` — Android dimens (spacing, sizes).
+- `packages/tokens/dist/ios/Colors.plist` — iOS-friendly color plist.
+
+## Quick start
 ```bash
-# install deps (root)
-npm run bootstrap
+# Ensure Node 18+ and install dev deps
+npm ci
 
-# validate tokens (schema)
+# Validate tokens against schema
 npm run token-validate
 
-# build tokens (outputs to packages/tokens/dist/)
-npm run build-tokens
-# or
-npm run build:packages   # will run build across packages (invokes build-tokens via package script)
+# Build platform artifacts via Style Dictionary
+npm run build-tokens:sd
 ```
 
-## How consumers use it
+## Notes
 
-- Web: include [packages/tokens/dist/tokens.css](dist/tokens.css) in the HTML to get CSS variables.
-- JS: import `@ds/tokens` (after publishing) or read [packages/tokens/dist/tokens.json](dist/tokens.json).
+- We keep `scripts/build-tokens.js` as a simple fallback (legacy) builder. Prefer the SD build for consistent platform outputs.
+- If you rename tokens or change token structure, update `tokens/tokens.schema.json` and inform the Token Owner. Use aliases or migration mapping to avoid breaking consumers.
