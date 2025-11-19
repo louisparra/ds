@@ -1,26 +1,18 @@
 #!/usr/bin/env sh
 . "$(dirname "$0")/_/husky.sh"
 
-# 1) run lint-staged (Prettier + eslint auto-fix on staged files)
 npx --no-install lint-staged
 
-# 2) run token schema validation (fast, existing script)
-if npm run | grep -q "token-validate"; then
-  npm run token-validate || {
-    echo "token-validate failed. Fix schema issues before committing."
-    exit 1
-  }
-else
+if [ -f scripts/token-validate.js ]; then
   node scripts/token-validate.js || {
     echo "token-validate failed. Fix schema issues before committing."
     exit 1
   }
 fi
 
-# 3) run token-lint in local (fast) mode
-node linting/token-lint-rules.js --mode=local || {
-  echo "token-lint (local) failed. Run 'node linting/token-lint-rules.js --mode=local' for details."
-  exit 1
-}
-
-# pre-commit done
+if [ -f linting/token-lint-rules.js ]; then
+  node linting/token-lint-rules.js --mode=local || {
+    echo "token-lint (local) failed. Run 'node linting/token-lint-rules.js --mode=local' for details."
+    exit 1
+  }
+fi

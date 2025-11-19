@@ -1,5 +1,6 @@
 # What this file is:
-# CI workflow that validates PRs and branches: lint/docs checks, token validation (schema), Style Dictionary build, Storybook smoke, and tests.
+# CI workflow that validates PRs and branches: lint/docs checks, token validation (schema),
+# Style Dictionary build, deep token semantic checks (CI-mode), Storybook smoke, and tests.
 # Edit by: Eng Lead or Infra maintainer. Update when CI steps or node versions change.
 # When to update (example): add a new job when token schema validation is enhanced.
 # Who must approve changes: Eng Lead and Infra team.
@@ -124,6 +125,61 @@ jobs:
             fi
           else
             echo "No token validation script present; skipping"
+          fi
+
+  token-semantic-checks:
+    name: Token semantic checks (deep, CI mode)
+    runs-on: ubuntu-latest
+    needs: [checkout-and-setup, style-dictionary-build, token-validate]
+    steps:
+      - name: Checkout (full fetch for diffs)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install deps
+        run: |
+          if [ -f package.json ]; then npm ci; else echo "No package.json present; skipping npm install"; fi
+
+      - name: Run deep token semantic checks (CI mode) — gated on tokens change for PRs
+        env:
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha || '' }}
+          PR_HEAD_SHA: ${{ github.sha }}
+        run: |
+          # If this is a pull_request event, try to detect whether tokens/ changed in the diff.
+          # If tokens/ did not change, we skip the expensive deep checks to save CI time.
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+            echo "PR event detected — checking whether tokens/ changed in this PR..."
+            # Fetch the base commit referenced by the PR to diff against
+            if [ -n "${PR_BASE_SHA}" ]; then
+              git fetch --no-tags --prune --depth=1 origin ${PR_BASE_SHA} || true
+              CHANGED=$(git diff --name-only ${PR_BASE_SHA} ${PR_HEAD_SHA} | grep -E '^tokens/' || true)
+              if [ -z "$CHANGED" ]; then
+                echo "No tokens/ changes detected in PR — skipping deep token semantic checks."
+                exit 0
+              else
+                echo "tokens/ changed in PR — running deep token semantic checks."
+              fi
+            else
+              echo "Could not determine PR base SHA — running deep checks by default."
+            fi
+          fi
+
+          echo "Running deep token lint checks (CI mode)..."
+          if npm run | grep -q "token-lint:ci"; then
+            npm run token-lint:ci
+          else
+            if [ -f linting/token-lint-rules.js ]; then
+              node linting/token-lint-rules.js --mode=ci
+            else
+              echo "No linting/token-lint-rules.js found — skipping deep token checks"
+            fi
           fi
 
   storybook-smoke:
