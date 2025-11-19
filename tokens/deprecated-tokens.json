@@ -1,0 +1,13 @@
+{
+  "_comment": "List of tokens currently marked deprecated and their replacement (if any). Edit by Token Owner. Approvals: Token Owner & Product.",
+  "schemaVersion": "1.0",
+  "deprecated": [
+    {
+      "key": "color.brand.secondary",
+      "replacement": "color.brand.primary",
+      "deprecatedAt": "2025-11-19",
+      "deprecationWindowDays": 28,
+      "notes": "Consolidating brand palette; aliasing secondary to primary during migration."
+    }
+  ]
+}

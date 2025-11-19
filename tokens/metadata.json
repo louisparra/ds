@@ -1,0 +1,47 @@
+{
+  "_comment": "Token metadata registry. Edit by Token Owner. Update when ownership or criticality changes. Approvals: Token Owner & Eng Lead.",
+  "schemaVersion": "1.0",
+  "generatedAt": "2025-11-19T00:00:00Z",
+  "owners": {
+    "tokenOwner": {
+      "name": "Louis Parra",
+      "email": "louis@example.com",
+      "team": "Design System"
+    }
+  },
+  "tokens": {
+    "color.brand.primary": {
+      "owner": "tokenOwner",
+      "criticality": "high",
+      "lastReviewed": "2025-11-18",
+      "usage": "Primary brand color used across buttons and links",
+      "platformNotes": "Ensure accessible contrast with ui.background"
+    },
+    "color.brand.secondary": {
+      "owner": "tokenOwner",
+      "criticality": "medium",
+      "lastReviewed": "2025-11-18",
+      "usage": "Secondary brand accent",
+      "platformNotes": "Deprecated soon; prefer color.brand.primary"
+    },
+    "type.font.family.base": {
+      "owner": "tokenOwner",
+      "criticality": "high",
+      "lastReviewed": "2025-11-18",
+      "usage": "Primary font stack for UI",
+      "platformNotes": "Map to iOS/Android font family tokens in transforms"
+    },
+    "spacing.scale.4": {
+      "owner": "tokenOwner",
+      "criticality": "low",
+      "lastReviewed": "2025-11-18",
+      "usage": "Default spacing step"
+    }
+  },
+  "teams": {
+    "Design System": {
+      "slack": "#design-system",
+      "oncall": null
+    }
+  }
+}

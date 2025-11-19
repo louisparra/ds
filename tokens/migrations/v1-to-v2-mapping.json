@@ -1,0 +1,23 @@
+{
+  "_comment": "Concrete mapping example for v1 -> v2 token structure migration. Edit author/date/description before applying. Use scripts/report-migrations.js to preview and scripts/apply-migration.js to apply.",
+  "id": "20251119-v1-to-v2",
+  "date": "2025-11-19",
+  "author": "Louis Parra <louis@example.com>",
+  "description": "Incremental restructure: unify lineheight naming and alias secondary brand color to primary.",
+  "actions": [
+    {
+      "oldKey": "type.font.lineheight.body",
+      "newKey": "type.font.lineheight.body",
+      "action": "noop",
+      "notes": "No-op entry used to verify existence and avoid accidental deletion."
+    },
+    {
+      "oldKey": "color.brand.secondary",
+      "newKey": "color.brand.primary",
+      "action": "alias",
+      "notes": "Alias secondary to primary; consumers should migrate to color.brand.primary.",
+      "reversible": true,
+      "affects": ["packages/ui-react", "apps/web-dashboard"]
+    }
+  ]
+}
