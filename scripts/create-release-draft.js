@@ -58,7 +58,9 @@ function main() {
   const releaseName = args[nameIndex + 1];
 
   const template = readTemplate();
-  const content = template.replace('[vX.Y.Z]', releaseName).replace('YYYY-MM-DD', new Date().toISOString().slice(0,10));
+  const content = template
+    .replace('[vX.Y.Z]', releaseName)
+    .replace('YYYY-MM-DD', new Date().toISOString().slice(0, 10));
 
   fs.writeFileSync(OUT_PATH, content, 'utf8');
   console.log('Release draft created:', OUT_PATH);

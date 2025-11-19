@@ -24,9 +24,10 @@ This folder contains the machine-readable and human templates for roadmap milest
 
 **Editing rules**
 
-- Edit [milestones.yaml](milestones.yaml) for structured updates (dates, owners, status).  
-- Use [milestone template](../templates/milestone-template.md) to draft a detailed milestone description before committing.  
+- Edit [milestones.yaml](milestones.yaml) for structured updates (dates, owners, status).
+- Use [milestone template](../templates/milestone-template.md) to draft a detailed milestone description before committing.
 - Always change via branch + PR; request approvals from owners listed in the milestone.
 
 **Consumption**
+
 - This YAML is safe to read by scripts and dashboards to build status boards. Keep fields consistent.

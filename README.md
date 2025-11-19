@@ -17,12 +17,14 @@ Design System Lead (for content changes that affect the project description).
 This repository is a **reusable template** for building a production-ready design system: tokens, components, automation, docs, and governance.
 
 Use this template to:
+
 - Bootstrap a new organization instance of the Design System.
 - Provide a complete, discoverable scaffold for designers, engineers, QA and product.
 
 ---
 
 ## Quick links (where to start)
+
 - **Project config:** [project-config.md](project-config.md) (fill during kickoff)
 - **Roadmap & milestones:** [ROADMAP.md](ROADMAP.md)
 - **Owners & governance:** [OWNERS.md](OWNERS.md) and [governance](governance/)
@@ -33,6 +35,7 @@ Use this template to:
 ---
 
 ## How to use this template (fast path)
+
 1. Create a new branch for your initial edits: `ds/top-level-scaffold`.
 2. Fill [project-config.md](project-config.md) and [OWNERS.md](OWNERS.md).
 3. Follow the [roadmap](ROADMAP.md) to implement milestones.
@@ -42,9 +45,11 @@ Branching policy: see [BRANCHING.md](BRANCHING.md).
 ---
 
 ## Contributing
+
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution flow, and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for community expectations.
 
 ---
 
 ## Support
+
 If you need help, ping the Design System Lead listed in [OWNERS.md](OWNERS.md).

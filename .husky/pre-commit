@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+# What this file is:
+# Husky pre-commit hook that runs lint-staged to format and lint staged files before commit.
+# Edit by: Maintainers. Update when lint-staged config changes.
+# Example when to update: add new file patterns to lint-staged.
+# Approvals: Eng Lead.
+
+. "$(dirname "$0")/_/husky.sh"
+
+# Run lint-staged (configured in package.json)
+npx --no-install lint-staged

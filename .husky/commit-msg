@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+# What this file is:
+# Husky commit-msg hook that runs commitlint to validate commit messages.
+# Edit by: Maintainers. Update when commit conventions change.
+# Example when to update: switch from conventional commits to another standard.
+# Approvals: Release Manager & Eng Lead.
+
+. "$(dirname "$0")/_/husky.sh"
+
+npx --no-install -- commitlint --edit "$1"

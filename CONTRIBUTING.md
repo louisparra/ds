@@ -17,7 +17,9 @@ Design System Lead and Engineering Lead.
 Thanks for contributing! This document explains the simplest, safest way to contribute.
 
 ## 1. Create a branch
+
 Follow the [branching](BRANCHING.md) policy. Example:
+
 ```bash
 git checkout -b ds/your-feature-short
 ```
@@ -37,8 +39,9 @@ Branch name conventions:
 ## 3. Commit & push
 
 Use clear commit messages:
+
 ```scss
-chore(docs): add CONTRIBUTING.md
+chore(docs): add CONTRIBUTING.md;
 ```
 
 ## 4. Open a Pull Request

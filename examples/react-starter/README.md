@@ -14,11 +14,12 @@ Design System Lead (docs) and Component Owner (if example demonstrates component
 
 # React Starter — example integration for the Design System
 
-This README explains how a small React starter app should consume the design system's token artifacts and UI package scaffold. The example is intentionally lightweight: it focuses on *how to use* `@ds/tokens` outputs and `@ds/ui-react` components rather than prescribing a specific React toolchain.
+This README explains how a small React starter app should consume the design system's token artifacts and UI package scaffold. The example is intentionally lightweight: it focuses on _how to use_ `@ds/tokens` outputs and `@ds/ui-react` components rather than prescribing a specific React toolchain.
 
 > Note: this repo currently contains a minimal `packages/ui-react` (DOM/JS scaffold) and `packages/tokens` (dist outputs). If you add a full React app later, use this README to document required scripts and conventions.
 
 ## Goals
+
 - Show how to include CSS tokens (CSS custom properties) in a React app.
 - Demonstrate a simple pattern to import UI components and tokens.
 - Provide commands and expectations for junior contributors.
@@ -38,6 +39,7 @@ examples/react-starter/
 ```
 
 ## Minimal run instructions (if you scaffold a real example)
+
 If you later add a real React starter (Vite / Create React App / Next), prefer Vite for minimal setup. Example commands (for a Vite-based starter):
 
 ```bash
@@ -59,37 +61,34 @@ npm run dev                 # run the Vite dev server
 ### How to consume tokens (recommended patterns)
 
 1. **Include CSS variables** (web):
-	- Ensure `packages/tokens/dist/web/tokens.css` is built (via `npm run build-tokens:sd`).
-	- In `index.html` (or root-level import), include:
-		```html
-		<link rel="stylesheet" href="../../packages/tokens/dist/web/tokens.css" />
-		```
-		or import in JS:
-		```javascript
-		import '../../packages/tokens/dist/web/tokens.css';
-		```
-	
+   - Ensure `packages/tokens/dist/web/tokens.css` is built (via `npm run build-tokens:sd`).
+   - In `index.html` (or root-level import), include:
+     ```html
+     <link rel="stylesheet" href="../../packages/tokens/dist/web/tokens.css" />
+     ```
+     or import in JS:
+     ```javascript
+     import '../../packages/tokens/dist/web/tokens.css';
+     ```
 1. **Consume flattened JSON in JS**:
-   
 
-	```javascript
-	// if you publish or bundle @ds/tokens, you might import:
-	// import tokens from '@ds/tokens/dist/web/tokens.json'
-	// For local example, require the dist file:
-	import tokens from '../../packages/tokens/dist/web/tokens.json';
-	console.log(tokens['color.primary']);
-	```
+   ```javascript
+   // if you publish or bundle @ds/tokens, you might import:
+   // import tokens from '@ds/tokens/dist/web/tokens.json'
+   // For local example, require the dist file:
+   import tokens from '../../packages/tokens/dist/web/tokens.json';
+   console.log(tokens['color.primary']);
+   ```
 
-3. **Use UI components**:
+1. **Use UI components**:
 
    - `@ds/ui-react` in this template is a scaffold. If you publish or link it, import components:
 
-   	```javascript 
-   	import Button from '../../packages/ui-react/src/Button.js';
-   	// or when published:
-   	// import { Button } from '@ds/ui-react';
-   	```
-
+     ```javascript 
+     import Button from '../../packages/ui-react/src/Button.js';
+     // or when published:
+     // import { Button } from '@ds/ui-react';
+     ```
 
 ### Recommended minimal example code (src/index.jsx)
 

@@ -14,14 +14,16 @@ Design System Lead and Engineering Lead must approve changes to this file.
 
 # Branching policy — Design System template
 
-This file describes the *official* branching strategy used across the design system template and any instance repos derived from it. Follow this policy for consistency, traceability, and safe collaboration.
+This file describes the _official_ branching strategy used across the design system template and any instance repos derived from it. Follow this policy for consistency, traceability, and safe collaboration.
 
 ---
 
 ## Basic rules (summary)
-1. **Never push directly to `ds/main`.** Always create a branch, open a PR, request reviewers, and merge after checks.  
-2. **Small, focused branches**: each branch should do one thing (e.g., `feature/components/button`, `chore/ci/add-validate`), not multiple unrelated tasks.  
+
+1. **Never push directly to `ds/main`.** Always create a branch, open a PR, request reviewers, and merge after checks.
+2. **Small, focused branches**: each branch should do one thing (e.g., `feature/components/button`, `chore/ci/add-validate`), not multiple unrelated tasks.
 3. **Naming convention:** use the format `<prefix>/<scope>-<short-description>` where:
+
    - `prefix` ∈ {`ds`, `feature`, `chore`, `fix`, `hotfix`, `org`, `release`}
    - `scope` is one of `tokens`, `components`, `ci`, `docs`, `playbooks`, `scripts`, `gov`, `example`, etc.
    - Example: `feature/tokens/initial-skeleton`, `ds/phase0-bootstrap-config`, `chore/ci/add-validate-workflow`.
@@ -33,6 +35,7 @@ This file describes the *official* branching strategy used across the design sys
 ## Branch types & examples
 
 ### A. Template changes (global, affects all instances)
+
 - Purpose: changes to canonical templates and automation used by all projects.
 - Branch prefix: `ds/` or `feature/`
 - Examples:
@@ -40,35 +43,40 @@ This file describes the *official* branching strategy used across the design sys
   - `feature/tokens/initial-skeleton` — add `tokens/tokens.json` skeleton and schema.
 
 ### B. Component or token features
+
 - Purpose: add or change components or token definitions.
 - Branch prefix: `feature/`
 - Examples:
-  - `feature/components/button`  
+  - `feature/components/button`
   - `feature/tokens/add-spacing-scale`
 
 ### C. CI / scripts / infra
+
 - Purpose: add or modify automation or publish flows.
 - Branch prefix: `chore/ci-` or `chore/scripts-`
 - Examples:
-  - `chore/ci/add-validate-workflow`  
+  - `chore/ci/add-validate-workflow`
   - `chore/scripts/bootstrap`
 
 ### D. Instance / Org-specific changes
+
 - Purpose: when you instantiate the template for a specific organization, keep org-specific edits in the instance repo under `org/<org-name>/...`.
 - Examples:
-  - `org/acme/bootstrap-config`  
+  - `org/acme/bootstrap-config`
   - `org/acme/custom-branding`
 
 ### E. Hotfixes / urgent
+
 - Purpose: emergencies requiring immediate patch.
 - Branch prefix: `hotfix/` or `fix/`
 - Examples:
-  - `hotfix/ci-failure-chromatic`  
+  - `hotfix/ci-failure-chromatic`
   - `fix/docs/readme-typo`
 
 ---
 
 ## Reviewers & CODEOWNERS guidance
+
 Use CODEOWNERS to auto-request reviews based on paths:
 
 - `tokens/**` → `@token-owner @design-lead`
@@ -77,6 +85,7 @@ Use CODEOWNERS to auto-request reviews based on paths:
 - `docs/**` & `figma/**` → `@design-lead @doc-owner`
 
 **Minimum reviewers per PR**
+
 - Docs-only: 1 design reviewer + optional PM
 - Token or component changes: Token owner + Eng owner + Design Lead
 - CI changes: Eng Lead + Infra
@@ -84,6 +93,7 @@ Use CODEOWNERS to auto-request reviews based on paths:
 ---
 
 ## CI gating (recommended)
+
 - PR runs:
   - Lightweight checks for docs-only PRs (spelling, lint).
   - Full checks for code/tokens/components (token schema validation, Storybook build, unit tests).
@@ -93,13 +103,15 @@ Use CODEOWNERS to auto-request reviews based on paths:
 ---
 
 ## Branch lifecycle & housekeeping
-- Delete branches after merge (cleanup).  
-- Rebase or merge main frequently for long-lived branches.  
+
+- Delete branches after merge (cleanup).
+- Rebase or merge main frequently for long-lived branches.
 - Stale branch policy: delete branches older than 90 days after confirming no active work.
 
 ---
 
 ## When to update BRANCHING.md
+
 - Add a new reviewer or team (update CODEOWNERS).
 - Shift CI platforms or gating rules (e.g., enabling Chromatic).
 - Change naming conventions or add new branch prefixes.
@@ -115,10 +127,10 @@ If you update this file, open a PR and request sign-off from the Design System L
   git checkout -b feature/components/button
   ```
 - Push & open PR:
-	```bash
-	git push -u origin feature/components/button
-	```
+  ```bash
+  git push -u origin feature/components/button
+  ```
 - Recommended PR title:
-	```scss
-	feat(components): Add Button component docs and Storybook stories
-	```
+  ```scss
+  feat(components): Add Button component docs and Storybook stories;
+  ```

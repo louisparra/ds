@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: Suggest an improvement or new feature for the design system
-title: "[FEATURE] short description"
+title: '[FEATURE] short description'
 labels: feature
 assignees: ''
 ---
@@ -21,28 +21,35 @@ Design System Lead and Product Manager.
 -->
 
 ## Summary
+
 One-paragraph summary of the feature and the user/problem it addresses.
 
 ## Proposal
+
 Describe the proposed change (component, token, pattern), including mockups or Figma links.
 
 ## Why
+
 User value and business rationale.
 
 ## Acceptance criteria
-- Criterion 1 (measurable)  
+
+- Criterion 1 (measurable)
 - Criterion 2
 
 ## Impact & rollout
-- Areas affected: `components/*`, `tokens/*`, `docs/*`  
+
+- Areas affected: `components/*`, `tokens/*`, `docs/*`
 - Migration needed? Yes / No (if yes, describe)
 
 ## Suggested priority
+
 Low / Medium / High
 
 ---
 
 ### Intake checklist
-- [ ] Add this to roadmap/milestones (if accepted)  
-- [ ] Assign component/token owner  
+
+- [ ] Add this to roadmap/milestones (if accepted)
+- [ ] Assign component/token owner
 - [ ] Create implementation tickets for design, dev, QA

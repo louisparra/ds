@@ -1,7 +1,7 @@
 ---
 name: Design system change
 about: Propose a token or component change (use this for token renames, new component, or API changes)
-title: "[DS CHANGE] short description"
+title: '[DS CHANGE] short description'
 labels: ds-change
 assignees: ''
 ---
@@ -21,27 +21,34 @@ Token Owner and Engineering Lead (see `governance/pr-approval-matrix.md` for req
 -->
 
 ## Short description
+
 Describe the proposed change and the motivation.
 
 ## Files impacted
+
 - `tokens/tokens.json` (if tokens)
 - `components/<Component>/docs.md` (if component)
 - `storybook` (if stories change)
 
 ## Backwards compatibility
-- Is this breaking? Yes / No  
+
+- Is this breaking? Yes / No
 - If yes, include migration mapping and propose deprecation timeline (see `governance/deprecation-policy.md`).
 
 ## Migration plan
-- Mapping file: `tokens/migrations/vX-to-vY-mapping.json` (if applicable)  
+
+- Mapping file: `tokens/migrations/vX-to-vY-mapping.json` (if applicable)
 - Scripts / code-mod suggestions:
 
 ## Tests & validation
-- Storybook story to validate (link)  
+
+- Storybook story to validate (link)
 - A11y checks required: yes/no
 
 ## Approvals required
+
 Based on `governance/pr-approval-matrix.md` — list the owners you’ll request:
+
 - @token-owner
 - @component-owner
 - @eng-lead
@@ -49,6 +56,7 @@ Based on `governance/pr-approval-matrix.md` — list the owners you’ll request
 ---
 
 ### Checklist before opening PR
-- [ ] Draft mapping files (if renaming/removing tokens)  
-- [ ] Create Storybook stories demonstrating new behavior  
+
+- [ ] Draft mapping files (if renaming/removing tokens)
+- [ ] Create Storybook stories demonstrating new behavior
 - [ ] Add unit tests (if applicable)

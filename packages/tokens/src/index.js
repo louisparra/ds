@@ -16,11 +16,13 @@ const distJson = path.join(__dirname, '..', 'dist', 'tokens.json');
 
 function readTokens() {
   if (!fs.existsSync(distJson)) {
-    throw new Error('Token dist not built. Run: npm run build-tokens (root) or npm run build in @ds/tokens package.');
+    throw new Error(
+      'Token dist not built. Run: npm run build-tokens (root) or npm run build in @ds/tokens package.'
+    );
   }
   return JSON.parse(fs.readFileSync(distJson, 'utf8'));
 }
 
 module.exports = {
-  readTokens
+  readTokens,
 };

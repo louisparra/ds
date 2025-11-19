@@ -48,9 +48,13 @@ if (hasPackage) {
 const storiesPath = path.join(process.cwd(), 'storybook', 'stories');
 if (fs.existsSync(storiesPath)) {
   const files = fs.readdirSync(storiesPath).filter(Boolean);
-  console.log(`Found ${files.length} files in storybook/stories (example: ${files.slice(0,3).join(', ')})`);
+  console.log(
+    `Found ${files.length} files in storybook/stories (example: ${files.slice(0, 3).join(', ')})`
+  );
   process.exit(0);
 }
 
-console.warn('No storybook build script or story files detected. If Storybook is not used yet, this check is a no-op.');
+console.warn(
+  'No storybook build script or story files detected. If Storybook is not used yet, this check is a no-op.'
+);
 process.exit(0);

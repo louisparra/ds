@@ -1,0 +1,9 @@
+# What this file is:
+# Files / folders ESLint should ignore. Edit by Eng Lead. Update when build artifacts paths change. Approvals: Eng Lead.
+
+node_modules/
+packages/*/dist/
+packages/*/node_modules/
+tokens/dist/
+.storybook/
+storybook-static/

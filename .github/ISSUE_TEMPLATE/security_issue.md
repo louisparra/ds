@@ -1,7 +1,7 @@
 ---
 name: Security issue (private disclosure)
 about: Report a security vulnerability — **DO NOT** post sensitive vulnerabilities publicly
-title: "[SECURITY] short description"
+title: '[SECURITY] short description'
 labels: security
 assignees: ''
 ---
@@ -25,11 +25,14 @@ IMPORTANT: Do **not** report active or sensitive security vulnerabilities in a p
 If you are **not able to** use the private channel (email) and must create this issue, **do not** include PII, reproduction URLs with secrets, or exploit code. Instead, provide a brief summary and email `security@yourcompany.example` with full details.
 
 ## Short summary
+
 A short, non-sensitive summary of the issue (no PII or secret tokens).
 
 ## Acknowledgement
-- I will **not** post exploit code publicly.  
+
+- I will **not** post exploit code publicly.
 - I will contact the security email or private channel per `SECURITY.md`.
 
 ## If you are the security team:
+
 - Move the report to a private channel and follow the organisation vulnerability playbook. See `SECURITY.md`.

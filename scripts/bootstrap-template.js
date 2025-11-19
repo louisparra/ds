@@ -50,7 +50,9 @@ function ask(question, rl) {
 
 async function initInteractive() {
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-  console.log('Interactive project-config.md creator — answers will be written to project-config.md');
+  console.log(
+    'Interactive project-config.md creator — answers will be written to project-config.md'
+  );
   const answers = {};
   answers.projectName = await ask('Project / Org name (e.g., Acme):', rl);
   answers.repoUrl = await ask('Repository URL (or "private"):', rl);
@@ -61,13 +63,22 @@ async function initInteractive() {
   answers.primaryPlatforms = await ask('Primary platform(s) (comma-separated, e.g., Web,iOS):', rl);
   answers.webFramework = await ask('If Web: framework (React/Vue/Svelte/None):', rl);
   answers.styling = await ask('Web styling approach (CSS/CSS-in-JS/Tailwind/Other):', rl);
-  answers.tokenPipeline = await ask('Token pipeline (Style Dictionary / Figma Tokens / Manual):', rl);
-  answers.componentDistribution = await ask('Component distribution (npm/monorepo/storybook-only):', rl);
+  answers.tokenPipeline = await ask(
+    'Token pipeline (Style Dictionary / Figma Tokens / Manual):',
+    rl
+  );
+  answers.componentDistribution = await ask(
+    'Component distribution (npm/monorepo/storybook-only):',
+    rl
+  );
   answers.iconStrategy = await ask('Icon strategy (SVG / sprite / SF Symbols / Other):', rl);
   answers.ci = await ask('CI platform (GitHub Actions / GitLab / CircleCI / Other):', rl);
   answers.visualTool = await ask('Visual regression tool (Chromatic/Percy/None):', rl);
   answers.i18n = await ask('Localization / RTL required? (languages or "none"):', rl);
-  answers.releaseCadence = await ask('Release cadence (Weekly / Biweekly / Monthly / On-demand):', rl);
+  answers.releaseCadence = await ask(
+    'Release cadence (Weekly / Biweekly / Monthly / On-demand):',
+    rl
+  );
   answers.deprecationWindow = await ask('Deprecation window (e.g., 3 releases / 30 days):', rl);
   answers.pilotAreas = await ask('Pilot areas (comma-separated):', rl);
 
@@ -76,7 +87,9 @@ async function initInteractive() {
   // Compose markdown content
   const mdLines = [];
   mdLines.push('<!--');
-  mdLines.push('Auto-generated project-config.md — run scripts/bootstrap-template.js --init to recreate interactively.');
+  mdLines.push(
+    'Auto-generated project-config.md — run scripts/bootstrap-template.js --init to recreate interactively.'
+  );
   mdLines.push('-->');
   mdLines.push('');
   mdLines.push(`# Project Configuration (project-config.md)`);
@@ -130,7 +143,15 @@ function validateConfig() {
     process.exit(1);
   }
   const content = fs.readFileSync(CONFIG_PATH, 'utf8');
-  const placeholders = ['TBD', 'tbd', 'TBD', 'Your Org', 'Your Org / Project name', 'replace', '_________'];
+  const placeholders = [
+    'TBD',
+    'tbd',
+    'TBD',
+    'Your Org',
+    'Your Org / Project name',
+    'replace',
+    '_________',
+  ];
   const missing = [];
   // Very simple heuristic: look for common placeholder markers
   placeholders.forEach((p) => {
@@ -150,7 +171,9 @@ function validateConfig() {
   if (missing.length > 0) {
     console.log('Validation issues found in project-config.md:');
     missing.forEach((m) => console.log(' -', m));
-    console.log('Please open project-config.md and replace placeholders with real values, then re-run this script:');
+    console.log(
+      'Please open project-config.md and replace placeholders with real values, then re-run this script:'
+    );
     console.log('  node scripts/bootstrap-template.js --validate');
     process.exit(1);
   } else {

@@ -17,9 +17,11 @@ Token Owner and Design System Lead.
 This package contains the canonical tokens and the output artifacts produced by Style Dictionary.
 
 ## Source
+
 - `tokens/tokens.json` — canonical nested token source (authored by designers/token owners).
 
 ## Generated outputs (via Style Dictionary)
+
 After running `npm run build-tokens:sd` (or `node scripts/build-tokens-sd.js`), look for:
 
 - `packages/tokens/dist/web/tokens.css` — CSS custom properties (use in web).
@@ -29,6 +31,7 @@ After running `npm run build-tokens:sd` (or `node scripts/build-tokens-sd.js`), 
 - `packages/tokens/dist/ios/Colors.plist` — iOS-friendly color plist.
 
 ## Quick start
+
 ```bash
 # Ensure Node 18+ and install dev deps
 npm ci

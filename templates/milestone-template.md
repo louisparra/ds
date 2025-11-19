@@ -21,28 +21,35 @@ Milestone owners and Design System Lead.
 **Status:** proposed / in-progress / blocked / done
 
 ## Purpose
+
 _One paragraph describing why this milestone exists and what problem it solves._
 
 ## Deliverables
+
 - item 1 (file path or artifact)
 - item 2
 
 ## Success criteria (measurable)
+
 - criterion 1
 - criterion 2
 
 ## Tasks (example)
+
 1. Task A — owner — estimate (days)
 2. Task B — owner — estimate (days)
 
 ## Risks & mitigation
+
 - Risk: description — Mitigation: description
 
 ## Communication plan
+
 - Announcement channel(s)
 - Stakeholders to notify
 
 ## QA checklist
+
 - [ ] Storybook built (if applicable)
 - [ ] A11y checks run
 - [ ] Migration mapping present (if applicable)

@@ -27,14 +27,14 @@ module.exports = {
           destination: 'tokens.css',
           format: 'css/variables', // outputs :root { --token-name: value; }
           options: {
-            outputReferences: true
-          }
+            outputReferences: true,
+          },
         },
         {
           destination: 'tokens.json',
-          format: 'json/flat' // flattened dot.path -> value
-        }
-      ]
+          format: 'json/flat', // flattened dot.path -> value
+        },
+      ],
     },
 
     // Android: colors.xml and dimens.xml (basic)
@@ -44,13 +44,13 @@ module.exports = {
       files: [
         {
           destination: 'colors.xml',
-          format: 'android/colors'
+          format: 'android/colors',
         },
         {
           destination: 'dimens.xml',
-          format: 'android/dimens'
-        }
-      ]
+          format: 'android/dimens',
+        },
+      ],
     },
 
     // iOS: color assets / plist
@@ -60,9 +60,9 @@ module.exports = {
       files: [
         {
           destination: 'Colors.plist',
-          format: 'ios/colors' // note: consumers may want xcassets; this produces Apple-friendly formats
-        }
-      ]
-    }
-  }
+          format: 'ios/colors', // note: consumers may want xcassets; this produces Apple-friendly formats
+        },
+      ],
+    },
+  },
 };
