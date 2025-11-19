@@ -2,16 +2,14 @@
   "color": {
     "brand": {
       "primary": {
-        "value": "#5e5ce6",
+        "value": "#0a84ff",
         "type": "color",
-        "description": "Secondary brand color used for secondary actions."
+        "description": "Primary brand color used for primary actions and emphasis."
       },
       "secondary": {
         "value": "#5e5ce6",
         "type": "color",
-        "description": "Secondary brand color used for secondary actions.",
-        "deprecated": true,
-        "replacement": "color.brand.primary"
+        "description": "Secondary brand color used for secondary actions."
       }
     },
     "ui": {
@@ -98,6 +96,11 @@
   },
   "spacing": {
     "scale": {
+      "px": {
+        "value": "1px",
+        "type": "spacing",
+        "description": "Baseline 1px spacing for thin borders."
+      },
       "1": {
         "value": "4px",
         "type": "spacing",
@@ -122,11 +125,6 @@
         "value": "24px",
         "type": "spacing",
         "description": "Spacing step 6 (24px)."
-      },
-      "px": {
-        "value": "1px",
-        "type": "spacing",
-        "description": "Baseline 1px spacing for thin borders."
       }
     }
   },
