@@ -44,7 +44,9 @@ async function runSchemaValidation(tokens, schema) {
     Ajv = require('ajv');
   } catch (e) {
     console.error('Ajv not installed. Install dev dependency "ajv" to enable schema validation.');
-    console.error('Fallback: skipping schema validation. To enable, run: npm install --save-dev ajv');
+    console.error(
+      'Fallback: skipping schema validation. To enable, run: npm install --save-dev ajv'
+    );
     return { skipped: true };
   }
 
@@ -70,7 +72,9 @@ function exitWithWarn(msg) {
 
 async function main() {
   if (!fs.existsSync(TOKENS_PATH)) {
-    console.warn('WARN: tokens/tokens.json not found. If your project has no tokens yet, skip this check.');
+    console.warn(
+      'WARN: tokens/tokens.json not found. If your project has no tokens yet, skip this check.'
+    );
     process.exit(0); // non-failing in template stage
   }
 

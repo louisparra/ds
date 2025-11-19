@@ -21,7 +21,10 @@
                 { "type": "array" }
               ]
             },
-            "type": { "type": "string", "description": "Optional token type (color, size, radius, etc.)" },
+            "type": {
+              "type": "string",
+              "description": "Optional token type (color, size, radius, etc.)"
+            },
             "description": { "type": "string" },
             "deprecated": { "type": "boolean" },
             "deprecatedDate": { "type": "string", "format": "date" },

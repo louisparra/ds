@@ -19,10 +19,11 @@ Deprecation is the formal process for retiring tokens, component props, or APIs.
 ---
 
 ## Deprecation lifecycle (recommended default)
-1. **Proposal (PR)** — a PR proposes deprecation, including: reason, replacement, migration steps, and suggested timeline. (Author: owner)  
-2. **Announcement & Soft-deprecation (T0)** — merge change with `deprecated: true` metadata in token or component doc; maintain both old and new for the duration. Update [deprecated-tokens.json](../tokens/deprecated-tokens.json) and [tokens/migrations/*](../tokens/migrations/). Announce to DS channel.  
+
+1. **Proposal (PR)** — a PR proposes deprecation, including: reason, replacement, migration steps, and suggested timeline. (Author: owner)
+2. **Announcement & Soft-deprecation (T0)** — merge change with `deprecated: true` metadata in token or component doc; maintain both old and new for the duration. Update [deprecated-tokens.json](../tokens/deprecated-tokens.json) and [tokens/migrations/\*](../tokens/migrations/). Announce to DS channel.
 3. **Migration period (T1)** — default **3 releases** or **90 days** (whichever is longer). During this time:
-   - CI will flag usages of deprecated items (token-lint).  
+   - CI will flag usages of deprecated items (token-lint).
    - Provide a migration script or code samples in [tokens/migrations/](../tokens/migrations/).
    - Owners track progress with the migration log.
 4. **Removal (T2)** — after migration window, remove deprecated item in a **major** release with explicit communication and migration guides.
@@ -32,7 +33,9 @@ Deprecation is the formal process for retiring tokens, component props, or APIs.
 ---
 
 ## How to mark a token/component as deprecated
+
 - Add `"deprecated": true`, `"deprecatedDate": "YYYY-MM-DD"`, `"replacement": "token.path.replacement"` metadata to [tokens.json](../tokens/tokens.json) entry. Example:
+
 ```json
 "color.action": {
   "value": "#0a84ff",
@@ -44,7 +47,7 @@ Deprecation is the formal process for retiring tokens, component props, or APIs.
 
 - Add an entry in [deprecated-tokens.json](../tokens/deprecated-tokens.json) with rationale and migration steps.
 
-------
+---
 
 ## Communication & documentation
 
@@ -52,20 +55,20 @@ Deprecation is the formal process for retiring tokens, component props, or APIs.
 - **Documentation:** update the component token docs and [tokens/migrations/](../tokens/migrations/) with examples.
 - **Migration workshops:** optional live session or recorded walkthrough for high-impact changes.
 
-------
+---
 
 ## Tooling & automation expectations
 
 - Token-lint scripts should surface deprecated token usage (we will add `scripts/token-lint.js`).
 - CI should fail PRs only if using **removed** items — during migration window, PRs should warn but not fail.
 
-------
+---
 
 ## Rollback options
 
 - If removal caused unexpected large-scale breakages, the Release Manager and Eng Lead may revert the removal and extend the migration window.
 
-------
+---
 
 ## Example deprecation scenario
 

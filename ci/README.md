@@ -17,14 +17,17 @@ Engineering Lead and Infra team.
 This folder documents the CI skeleton used by the repository.
 
 ## Workflows included
+
 - `.github/workflows/ci-validate.yml` — runs on PRs and branch pushes; validates tokens (schema), runs Style Dictionary builds, runs Storybook smoke and tests.
 - `.github/workflows/publish-packages.yml` — publishes on annotated tags `v*.*.*` (skeleton).
 - Other workflows: storybook deploy, build-and-test, etc. (scaffolded elsewhere)
 
 ## Style Dictionary integration
+
 We use Style Dictionary to transform canonical tokens into platform artifacts.
 
 Local steps:
+
 ```bash
 # install dependencies (Node 18+ recommended)
 npm ci
