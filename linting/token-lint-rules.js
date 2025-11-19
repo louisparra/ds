@@ -1,30 +1,30 @@
 /*
 What this file is:
-Token lint helper — performs additional semantic checks on tokens/tokens.json beyond JSON Schema.
-Examples: key-name format (dot.path), reserved prefixes, detecting identical color values, deprecated token sanity checks.
+Token lint helper — performs schema and semantic checks on tokens/tokens.json.
+Supports two modes:
+ - local (fast): quick schema + lightweight semantic checks
+ - ci (deep): expensive global checks like duplicate-value scanning
 
 Who should edit it:
-Token Owner or Tooling engineer. Update when new token conventions are introduced.
+Token Owner or Tooling engineer.
 
-When to update (example):
-Add new naming rules, or additional semantic checks for new token types.
+When to update:
+Add rules when token conventions evolve.
 
 Who must approve changes:
 Token Owner & Engineering Lead.
-
-Usage:
-# from repo root (Node 18+)
-node linting/token-lint-rules.js
-
-Expected output:
-- Exit code 0 and "OK" if no rule violations.
-- Exit code 1 and list of violations otherwise.
 */
 
 const fs = require('fs');
 const path = require('path');
 
 const TOKENS_PATH = path.join(process.cwd(), 'tokens', 'tokens.json');
+
+// Parse CLI args
+const args = process.argv.slice(2);
+const argMode = args.find((a) => a.startsWith('--mode=')) || '';
+const MODE = argMode ? argMode.split('=')[1] : process.env.TOKEN_LINT_MODE || 'local'; // 'local' or 'ci'
+console.log(`token-lint-rules running in mode: ${MODE}`);
 
 function readJson(p) {
   try {
@@ -61,7 +61,6 @@ function checkKeyFormat(keys) {
 }
 
 function findDuplicateValues(obj) {
-  // naive duplicate value detector for strings (e.g., colors)
   const map = new Map();
   const duplicates = [];
   function recurse(o, p = []) {
@@ -112,31 +111,45 @@ function main() {
   const tokens = readJson(TOKENS_PATH);
 
   const keys = flattenKeys(tokens);
+
+  // FAST checks — always run (local & ci)
   const keyFormatViolations = checkKeyFormat(keys);
-  const dupes = findDuplicateValues(tokens);
   const deprecatedIssues = checkDeprecatedFlags(tokens);
 
   let fail = false;
+
   if (keyFormatViolations.length) {
     console.error('Key format violations:');
     keyFormatViolations.forEach((v) => console.error(' -', v));
     fail = true;
   }
-  if (dupes.length) {
-    console.error('Duplicate token values detected (value -> [existingKey, newKey]):');
-    dupes.forEach((d) => console.error(` - ${d.value} -> ${d.keys.join(', ')}`));
-    fail = true;
-  }
+
   if (deprecatedIssues.length) {
     console.error('Deprecated token issues:');
     deprecatedIssues.forEach((i) => console.error(' -', i));
-    fail = true;
+    // In local mode this is a warning; in CI treat as failure
+    if (MODE === 'ci') {
+      fail = true;
+    } else {
+      console.warn('Note: deprecated tokens without replacement (local mode -> warning).');
+    }
+  }
+
+  // DEEP checks — only in CI mode
+  if (MODE === 'ci') {
+    const dupes = findDuplicateValues(tokens);
+    if (dupes.length) {
+      console.error('Duplicate token values detected (value -> [existingKey, newKey]):');
+      dupes.forEach((d) => console.error(` - ${d.value} -> ${d.keys.join(', ')}`));
+      fail = true;
+    }
+  } else {
+    // In local mode, do a quick duplicate heuristic for nearby keys (optional)
+    // leaving out expensive full-scan to keep commits fast
   }
 
   if (fail) {
-    console.error(
-      'Token lint rules FAILED. Fix issues or update token-lint-rules.js if rule change intended.'
-    );
+    console.error('Token lint rules FAILED.');
     process.exit(1);
   } else {
     console.log('OK: token-lint-rules passed.');

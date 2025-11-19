@@ -23,7 +23,9 @@
     "build-tokens:sd": "node scripts/build-tokens-sd.js",
     "publish-packages": "bash scripts/publish-packages.sh",
     "stylelint": "stylelint \"**/*.{css,scss}\"",
-    "stylelint:fix": "stylelint \"**/*.{css,scss}\" --fix"
+    "stylelint:fix": "stylelint \"**/*.{css,scss}\" --fix",
+    "token-lint:local": "node linting/token-lint-rules.js --mode=local",
+    "token-lint:ci": "node linting/token-lint-rules.js --mode=ci"
   },
   "author": "",
   "license": "MIT",
