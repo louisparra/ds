@@ -1,125 +1,111 @@
 /*
 What this file is:
-Token build script that resolves the repository root and writes package artifacts to packages/tokens/dist.
-It prefers the canonical repo-level tokens/tokens.json, with a fallback to package-local tokens.
+Higher-level token build runner: runs the Style Dictionary build (via build-tokens-sd.js)
+and performs simple smoke checks (presence of expected artifacts) and optional copy to package locations.
 
 Who should edit it:
-Token Owner or developer. Update when token source location or dist paths change.
+Tooling engineer or Token Owner. Update when output paths change or you add more verification.
 
 When to update (example):
-Change if you want tokens stored under packages/tokens instead of repo root.
+Add new platform-specific checks, or change 'packages/tokens/dist/*' structure.
 
 Who must approve changes:
-Token Owner and Engineering Lead.
+Token Owner & Engineering Lead.
 
-Usage:
-# from repo root
-node scripts/build-tokens.js
+Usage examples:
+  # Run the full build and smoke checks
+  node scripts/build-tokens.js
+
+  # Run a build and only check web outputs
+  node scripts/build-tokens.js --platform web
 
 Expected outputs:
-- packages/tokens/dist/tokens.json
-- packages/tokens/dist/tokens.css
+  - returns exit code 0 on success
+  - prints files created: packages/tokens/dist/web/tokens.css, packages/tokens/dist/android/colors.xml, packages/tokens/dist/ios/Colors.plist
 */
 
+const { spawnSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-// Determine repo-root (scripts are in <repo>/scripts)
-const REPO_ROOT = path.resolve(__dirname, '..');
-// Candidate token source paths (prefer repo-level)
-const TOKENS_REPO_PATH = path.join(REPO_ROOT, 'tokens', 'tokens.json');
-// fallback: package-local (useful if someone runs script inside package)
-const TOKENS_PACKAGE_LOCAL = path.join(process.cwd(), 'tokens', 'tokens.json');
-
-// Output (write into the tokens package dist so package consumers can read it)
-const TOKEN_PKG_DIST = path.join(REPO_ROOT, 'packages', 'tokens', 'dist');
-
-function ensureDir(dir) {
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+function runNodeScript(scriptPath, args = []) {
+  const node = process.execPath || 'node';
+  const res = spawnSync(node, [scriptPath, ...args], { stdio: 'inherit' });
+  return res.status === 0;
 }
 
-function flatten(obj, prefix = []) {
-  const res = {};
-  Object.keys(obj).forEach((k) => {
-    const val = obj[k];
-    if (val && typeof val === 'object' && 'value' in val && Object.keys(val).length >= 1) {
-      const key = [...prefix, k].join('.');
-      res[key] = val.value;
-    } else if (val && typeof val === 'object') {
-      const nested = flatten(val, [...prefix, k]);
-      Object.assign(res, nested);
-    } else {
-      const key = [...prefix, k].join('.');
-      res[key] = val;
+// Simple existence check helper
+function checkFileExists(p) {
+  try {
+    return fs.existsSync(p) && fs.statSync(p).isFile();
+  } catch (e) {
+    return false;
+  }
+}
+
+function usageAndExit() {
+  console.log('Usage: node scripts/build-tokens.js [--platform <web|android|ios>]');
+  process.exit(2);
+}
+
+const args = process.argv.slice(2);
+let platform = null;
+if (args.length === 2 && args[0] === '--platform') {
+  platform = args[1];
+} else if (args.length > 0) {
+  usageAndExit();
+}
+
+(async function main() {
+  console.log('[build-tokens] Starting token build pipeline.');
+
+  // 1) Run style-dictionary build wrapper
+  const sdScript = path.resolve(process.cwd(), 'scripts', 'build-tokens-sd.js');
+  if (!fs.existsSync(sdScript)) {
+    console.error('[build-tokens] ERROR: style-dictionary build script missing at', sdScript);
+    process.exit(2);
+  }
+
+  const ok = runNodeScript(sdScript);
+  if (!ok) {
+    console.error('[build-tokens] ERROR: style-dictionary build failed.');
+    process.exit(1);
+  }
+
+  // 2) Smoke checks (platform-specific)
+  const checks = {
+    web: [
+      path.resolve(process.cwd(), 'packages', 'tokens', 'dist', 'web', 'tokens.css'),
+      path.resolve(process.cwd(), 'packages', 'tokens', 'dist', 'web', 'tokens.json'),
+    ],
+    android: [
+      path.resolve(process.cwd(), 'packages', 'tokens', 'dist', 'android', 'colors.xml'),
+      path.resolve(process.cwd(), 'packages', 'dist', 'android', 'dimens.xml'),
+    ],
+    ios: [path.resolve(process.cwd(), 'packages', 'tokens', 'dist', 'ios', 'Colors.plist')],
+  };
+
+  const platformsToCheck = platform ? [platform] : Object.keys(checks);
+
+  let failed = false;
+  for (const p of platformsToCheck) {
+    const files = checks[p] || [];
+    console.log(`[build-tokens] Checking outputs for platform: ${p}`);
+    for (const f of files) {
+      if (checkFileExists(f)) {
+        console.log(`  ✓ ${path.relative(process.cwd(), f)}`);
+      } else {
+        console.error(`  ✗ MISSING: ${path.relative(process.cwd(), f)}`);
+        failed = true;
+      }
     }
-  });
-  return res;
-}
-
-function toCssVars(flatTokens) {
-  const lines = [':root {'];
-  Object.keys(flatTokens).forEach((k) => {
-    const varName = '--' + k.replace(/\./g, '-');
-    const value = flatTokens[k];
-    lines.push(`  ${varName}: ${value};`);
-  });
-  lines.push('}');
-  return lines.join('\n');
-}
-
-function writeJson(filePath, data) {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
-}
-
-function writeText(filePath, text) {
-  fs.writeFileSync(filePath, text, 'utf8');
-}
-
-function readTokensFile(p) {
-  try {
-    const raw = fs.readFileSync(p, 'utf8');
-    return JSON.parse(raw);
-  } catch (e) {
-    throw new Error(`Failed to read/parse ${p}: ${e.message}`);
   }
-}
 
-function main() {
-  let srcPath = null;
-
-  if (fs.existsSync(TOKENS_REPO_PATH)) {
-    srcPath = TOKENS_REPO_PATH;
-  } else if (fs.existsSync(TOKENS_PACKAGE_LOCAL)) {
-    console.warn('WARN: repo-level tokens not found; using package-local tokens/tokens.json');
-    srcPath = TOKENS_PACKAGE_LOCAL;
-  } else {
-    console.error(
-      `ERROR: tokens/tokens.json not found.\nPlease create one at ${TOKENS_REPO_PATH} (you can copy tokens/tokens.example.json).`
-    );
+  if (failed) {
+    console.error('[build-tokens] One or more expected artifacts are missing. See messages above.');
     process.exit(1);
   }
 
-  let tokens;
-  try {
-    tokens = readTokensFile(srcPath);
-  } catch (e) {
-    console.error(e.message);
-    process.exit(1);
-  }
-
-  const flat = flatten(tokens);
-  ensureDir(TOKEN_PKG_DIST);
-
-  const outJson = path.join(TOKEN_PKG_DIST, 'tokens.json');
-  const outCss = path.join(TOKEN_PKG_DIST, 'tokens.css');
-
-  writeJson(outJson, flat);
-  writeText(outCss, toCssVars(flat));
-
-  console.log(`Built tokens from ${srcPath}: ${Object.keys(flat).length} tokens`);
-  console.log(`Wrote ${outJson}`);
-  console.log(`Wrote ${outCss}`);
+  console.log('[build-tokens] All checks passed.');
   process.exit(0);
-}
-
-main();
+})();
