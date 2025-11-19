@@ -37,7 +37,40 @@ jobs:
           echo "Running token schema validation..."
           npm run token-validate
 
-      - name: Token deep semantic checks (CI)
+      - name: Run deep token checks only if tokens/ changed
+        # Ensure we have full history to diff base vs head
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine token changes and run deep lint if needed
+        env:
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_HEAD_SHA: ${{ github.sha }}
         run: |
-          echo "Running deep token lint..."
-          npm run token-lint:ci
+          # Decide base SHA depending on event type
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          else
+            BASE_SHA="${{ github.event.before }}"
+          fi
+
+          echo "Base SHA: $BASE_SHA"
+          echo "Head SHA: $GITHUB_HEAD_SHA"
+
+          # Ensure we have base in local refs (fetch base)
+          git fetch origin "$BASE_SHA" --no-tags --depth=1 || true
+
+          # List changed files between base and head
+          CHANGED=$(git diff --name-only "$BASE_SHA" "$GITHUB_HEAD_SHA" | grep -E '^tokens/' || true)
+
+          if [ -n "$CHANGED" ]; then
+            echo "Detected tokens changes:"
+            echo "$CHANGED"
+            echo "Running deep token lint (CI mode)..."
+            npm ci
+            npm run token-lint:ci
+          else
+            echo "No changes under tokens/ — skipping deep token lint."
+          fi
+
