@@ -43,5 +43,8 @@
     "*.{json,md,css,scss,html,mdx}": [
       "prettier --write"
     ]
+  },
+  "overrides": {
+    "micromatch": "^4.0.8"
   }
 }

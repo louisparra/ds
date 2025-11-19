@@ -1,15 +1,26 @@
 {
-  "_comment": "Tokens package manifest: small package to hold canonical tokens and consumer-facing entrypoints. Edit by Token Owner. Update when package name or build changes. Approvals: Token Owner & Eng Lead.",
-  "name": "@ds/tokens",
-  "version": "0.0.0",
-  "private": true,
-  "main": "dist/tokens.json",
+  "_comment": "Package metadata for the design tokens distribution. Edit by Token Owner. Update version when publishing; approvals: Token Owner & Eng Lead.",
+  "name": "@your-scope/design-tokens",
+  "version": "0.0.0-development",
+  "description": "Distributed design tokens (generated artifacts live under dist/). Replace @your-scope with your org scope before publishing.",
+  "private": false,
+  "main": "dist/web/tokens.json",
   "files": [
-    "dist/*"
+    "dist/**",
+    "README.md"
   ],
   "scripts": {
     "build": "node ../../scripts/build-tokens.js",
-    "validate": "node ../../scripts/token-validate.js"
+    "pack": "npm pack",
+    "prepublishOnly": "node ../../scripts/build-tokens.js"
   },
-  "license": "MIT"
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "keywords": [
+    "design-tokens",
+    "tokens",
+    "design-system"
+  ],
+  "license": "UNLICENSED"
 }

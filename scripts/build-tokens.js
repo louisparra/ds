@@ -80,7 +80,7 @@ if (args.length === 2 && args[0] === '--platform') {
     ],
     android: [
       path.resolve(process.cwd(), 'packages', 'tokens', 'dist', 'android', 'colors.xml'),
-      path.resolve(process.cwd(), 'packages', 'dist', 'android', 'dimens.xml'),
+      path.resolve(process.cwd(), 'packages', 'tokens', 'dist', 'android', 'dimens.xml'),
     ],
     ios: [path.resolve(process.cwd(), 'packages', 'tokens', 'dist', 'ios', 'Colors.plist')],
   };
