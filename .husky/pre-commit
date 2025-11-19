@@ -1,11 +1,32 @@
 #!/usr/bin/env sh
 # What this file is:
-# Husky pre-commit hook that runs lint-staged to format and lint staged files before commit.
-# Edit by: Maintainers. Update when lint-staged config changes.
-# Example when to update: add new file patterns to lint-staged.
-# Approvals: Eng Lead.
+# Template pre-commit hook placed under linting/ as an authoritative example. Intended to be copied into .husky/pre-commit or referenced by maintainers.
+# Who should edit it:
+# Maintainers, or the person responsible for local dev experience (Eng Lead).
+# When to update (example):
+# When you change lint-staged config or add new pre-commit checks.
+# Who must approve changes:
+# Eng Lead.
+
+# Usage note:
+# Copy this file to the repository root .husky/pre-commit (or update the root .husky/pre-commit) to enable.
+#
+# Example copy (run once):
+#   cp linting/husky/pre-commit .husky/pre-commit
+#   chmod +x .husky/pre-commit
 
 . "$(dirname "$0")/_/husky.sh"
 
-# Run lint-staged (configured in package.json)
+echo "Running pre-commit (lint-staged -> token-lint-rules)"
+
+# Run lint-staged first (format / eslint auto-fix of staged files)
 npx --no-install lint-staged
+
+# Run token semantic checks (optional; non-fast but useful)
+node linting/token-lint-rules.js || {
+  echo "Token lint rules failed. See output above."
+  exit 1
+}
+
+# If you want to run additional checks (stylelint), add them here, or
+# keep it fast for contributors to avoid blocking commits.
