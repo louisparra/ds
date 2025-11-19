@@ -1,0 +1,34 @@
+{
+  "_comment": "Mapping of Figma style names -> repo token keys. Edit by Token Owner or Design System Lead. Update when Figma style names or token dot.path keys change. Approvals: Token Owner & Engineering Lead.",
+  "schemaVersion": "1.0",
+  "generatedAt": "2025-11-19T00:00:00Z",
+  "description": "This file is a single authoritative mapping used by exporters and CI to translate Figma style names into canonical repo token keys (dot.path). Keep this minimal and machine-friendly.",
+  "rules": {
+    "defaultTransform": "replace_slash_with_dot_and_lowercase",
+    "examples": [
+      {
+        "figma": "color/brand/primary",
+        "token": "color.brand.primary"
+      },
+      {
+        "figma": "type/body/16-regular",
+        "token": "type.body.16.regular"
+      }
+    ],
+    "notes": "If a mapping is present here it overrides automatic mapping rules. Use explicit entries for ambiguous or legacy Figma style names."
+  },
+  "mappings": {
+    "color/brand/primary": "color.brand.primary",
+    "color/brand/secondary": "color.brand.secondary",
+    "color/ui/background": "color.ui.background",
+    "type/heading/32-bold": "type.heading.32.bold",
+    "type/body/16-regular": "type.body.16.regular",
+    "spacing/scale/1": "spacing.scale.1",
+    "spacing/scale/2": "spacing.scale.2",
+    "effect/shadow/card": "effect.shadow.card"
+  },
+  "transformHints": {
+    "autoRule": "When a mapping is not present, tooling should map by replacing '/' with '.' and lowercasing (e.g., color/brand/primary -> color.brand.primary). Numeric segments remain unchanged.",
+    "overridePriority": "explicit mapping > autoRule"
+  }
+}
