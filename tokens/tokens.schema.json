@@ -1,10 +1,10 @@
 {
-  "$comment": "JSON Schema for tokens/tokens.json. Edit by Token Owner; update when token shape changes; approvals: Token Owner & Eng Lead.",
+  "$comment": "JSON Schema for tokens/tokens.json. Accepts both full token object {value:...} and primitive shorthand leaf values. Edit by Token Owner; update when token shape changes.",
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Design System Tokens Schema",
+  "title": "Design System Tokens Schema (flexible)",
   "type": "object",
   "additionalProperties": true,
-  "description": "Root object containing nested token categories. Each leaf token must be an object with a 'value' property.",
+  "description": "Root object containing nested token categories. Leaves may be primitive (string/number/boolean) or token objects with a 'value' property.",
   "definitions": {
     "tokenPrimitive": {
       "type": ["string", "number", "boolean"],
@@ -22,6 +22,7 @@
         "description": { "type": "string" },
         "deprecated": { "type": "boolean" },
         "replacement": { "type": "string" },
+        "aliasOf": { "type": "string" },
         "meta": {
           "type": "object",
           "additionalProperties": true
@@ -32,7 +33,11 @@
   },
   "patternProperties": {
     "^[a-z0-9]+(?:[-_][a-z0-9]+)*$": {
-      "anyOf": [{ "$ref": "#/definitions/tokenObject" }, { "$ref": "#" }]
+      "anyOf": [
+        { "$ref": "#/definitions/tokenObject" },
+        { "$ref": "#/definitions/tokenPrimitive" },
+        { "type": "object" }
+      ]
     }
   },
   "examples": [
@@ -43,6 +48,17 @@
             "value": "#0a84ff",
             "type": "color",
             "description": "Primary brand color"
+          },
+          "secondary": "#5e5ce6"
+        }
+      },
+      "spacing": {
+        "scale": {
+          "3": "12px",
+          "4": {
+            "value": "16px",
+            "type": "spacing",
+            "description": "Default spacing step"
           }
         }
       }

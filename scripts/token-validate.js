@@ -9,16 +9,12 @@ Who must approve changes:
 Token Owner & Engineering Lead.
 
 Usage examples:
-  # default: validate tokens/tokens.json
   node scripts/token-validate.js
-
-  # validate a specific file
   node scripts/token-validate.js --file tokens/tokens.json
 
 Expected outputs:
   - Exit code 0 and message "OK: schema validation passed for <file>" if valid.
   - Exit code 1 and printed list of schema errors if invalid.
-  - Exit code 2 on filesystem/read errors.
 */
 
 const fs = require('fs');
@@ -66,38 +62,50 @@ const schema = readJsonFile(schemaPath);
 const tokens = readJsonFile(tokensPath);
 
 // Setup AJV
-const ajv = new Ajv({ allErrors: true, jsonPointers: true, verbose: true });
-require('ajv-errors')(ajv /* optional - better error messages if installed */, {
-  singleError: true,
-});
-// Note: ajv-errors is optional — if not installed, the require will fail; script tolerates absence.
-let compile;
+// NOTE: remove deprecated jsonPointers option and add allowUnionTypes to support 'type': ['string','number'] patterns
+const ajv = new Ajv({ allErrors: true, verbose: true, allowUnionTypes: true });
+// If you have ajv-errors installed, we can use it for nicer messages; swallow errors if not installed.
 try {
-  compile = ajv.compile(schema);
+  require('ajv-errors')(ajv);
+} catch (e) {
+  /* optional - ajv-errors not installed; proceed without it */
+}
+
+// compile and validate
+let validate;
+try {
+  validate = ajv.compile(schema);
 } catch (compileErr) {
   console.error('ERROR: Failed to compile JSON schema:');
   console.error(compileErr && compileErr.message ? compileErr.message : compileErr);
   process.exit(2);
 }
 
-// Validate
-const valid = compile(tokens);
+const valid = validate(tokens);
 
 if (valid) {
   console.log(`OK: schema validation passed for ${tokensPath}`);
   process.exit(0);
 } else {
   console.error(`Schema validation failed for ${tokensPath}. Errors:`);
-  compile.errors.forEach((err) => {
-    // Ajv error object contains dataPath / instancePath and message
-    const dataPath = err.instancePath || err.dataPath || '';
-    console.error(` - ${dataPath} ${err.message}`);
+  // print structured and helpful errors
+  validate.errors.forEach((err) => {
+    // instancePath is the JSON Pointer to the failing node
+    const instancePath = err.instancePath || err.dataPath || '';
+    const message = err.message || JSON.stringify(err);
+    console.error(` - ${instancePath} ${message}`);
     if (err.params) {
-      // show additional hints for missing required properties
       if (err.keyword === 'required' && err.params && err.params.missingProperty) {
         console.error(`   -> Missing property: ${err.params.missingProperty}`);
+      } else if (
+        err.keyword === 'additionalProperties' &&
+        err.params &&
+        err.params.additionalProperty
+      ) {
+        console.error(`   -> Unexpected property: ${err.params.additionalProperty}`);
       }
     }
   });
+  // exit with non-zero so CI fails
   process.exit(1);
 }
