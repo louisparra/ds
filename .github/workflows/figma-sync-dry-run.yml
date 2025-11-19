@@ -1,0 +1,119 @@
+# What this file is:
+# CI workflow that runs on PRs and performs a dry-run of the Figma -> tokens sync.
+# It detects if the PR changes mapping files or contains a figma export and posts
+# a preview report as a PR comment. Safe: runs in --dry mode only by default.
+#
+# Who should edit it:
+# Tooling Engineer, Token Owner.
+#
+# When to update (example):
+# Update when you change where contributors place figma-export.json or mapping filenames.
+#
+# Who must approve changes:
+# Token Owner & Engineering Lead.
+
+name: Figma sync — dry run (PR preview)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  figma-sync-dry-run:
+    name: Figma sync (dry-run) and PR comment
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Determine changed files and look for figma-export
+        id: detect
+        run: |
+          set -euo pipefail
+          echo "Detecting changed files in PR..."
+          # fetch the base ref to diff
+          BASE_REF=${{ github.event.pull_request.base.ref }}
+          HEAD_SHA=${{ github.event.pull_request.head.sha }}
+          echo "Base ref: $BASE_REF"
+          git fetch origin "$BASE_REF":"refs/remotes/origin/$BASE_REF" --no-tags --depth=1 || true
+
+          CHANGED=$(git diff --name-only origin/$BASE_REF...$HEAD_SHA || true)
+          echo "Changed files:"
+          echo "$CHANGED"
+
+          run=false
+          mapping_changed=false
+
+          # Check if FIGMA_STYLE_MAP.json changed
+          if echo "$CHANGED" | grep -q -E '^figma/FIGMA_STYLE_MAP\.json$'; then
+            mapping_changed=true
+            run=true
+          fi
+
+          # Check if any figma export file is present in the PR tree (common location)
+          export_path=""
+          # common paths: figma/figma-export.json or figma/exports/*.json or root figma-export.json
+          CANDIDATES="figma/figma-export.json figma/exports/*.json figma-export.json"
+          for p in $CANDIDATES; do
+            # expand globs
+            for f in $p; do
+              if [ -f "$f" ]; then
+                export_path="$f"
+                run=true
+                break 2
+              fi
+            done
+          done
+
+          echo "mapping_changed=$mapping_changed" >> "$GITHUB_OUTPUT"
+          echo "found_export=${export_path:-}" >> "$GITHUB_OUTPUT"
+          echo "should_run=$run" >> "$GITHUB_OUTPUT"
+
+      - name: Run figma-sync.js in dry-run and produce report
+        id: run_sync
+        if: steps.detect.outputs.should_run == 'true'
+        run: |
+          set -euo pipefail
+          INPUT="${{ steps.detect.outputs.found_export }}"
+          # If no export found but mapping changed, ask contributor to include an export; still run with best-effort using existing tokens if possible.
+          if [ -z "$INPUT" ]; then
+            echo "No figma export file found in repository tree. To run a meaningful dry-run, include a Figma export at 'figma/figma-export.json' or under 'figma/exports/'."
+            echo "report<<'EOF'" >> "$GITHUB_OUTPUT"
+            echo "# Figma sync dry-run" >> "$GITHUB_OUTPUT"
+            echo "" >> "$GITHUB_OUTPUT"
+            echo "- Mapping file changed in this PR (`figma/FIGMA_STYLE_MAP.json`) but no exported styles were included." >> "$GITHUB_OUTPUT"
+            echo "- To preview changes, add a Figma export JSON to the PR (e.g. `figma/figma-export.json`) and update the PR." >> "$GITHUB_OUTPUT"
+            echo "" >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Run the script in dry mode; capture output
+          echo "Running figma-sync.js --dry with input: $INPUT"
+          node scripts/figma-sync.js --input "$INPUT" --map figma/FIGMA_STYLE_MAP.json --output tokens/tokens.json --dry 2>&1 | tee ./figma-sync-report.md || true
+
+          echo "report<<'EOF'" >> "$GITHUB_OUTPUT"
+          sed 's/^/ /' ./figma-sync-report.md >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Post or update PR comment with dry-run report
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: ${{ steps.run_sync.outputs.report || steps.detect.outputs.found_export && 'No report generated.' }}
