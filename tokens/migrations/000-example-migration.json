@@ -1,0 +1,24 @@
+{
+  "_comment": "Example migration mapping. Edit author/date/description and actions before using. Applied via scripts/apply-migration.js. Approved by Token Owner & Eng Lead.",
+  "id": "20251119-consolidate-brand-secondary",
+  "date": "2025-11-19",
+  "author": "Louis Parra <louis@example.com>",
+  "description": "Consolidate brand secondary into brand primary and alias old key to new replacement.",
+  "actions": [
+    {
+      "oldKey": "color.brand.secondary",
+      "newKey": "color.brand.primary",
+      "action": "alias",
+      "notes": "Secondary will alias primary for now; consumers should migrate to color.brand.primary",
+      "reversible": true,
+      "affects": ["packages/ui-react", "apps/web-dashboard"]
+    },
+    {
+      "oldKey": "type.font.lineheight.body",
+      "newKey": "type.font.lineheight.body",
+      "action": "noop",
+      "notes": "Example no-op mapping (verify key exists)",
+      "reversible": true
+    }
+  ]
+}
