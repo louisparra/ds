@@ -1,35 +1,51 @@
 {
-  "_comment": "JSON Schema for tokens/tokens.json. Edit by Token Owner; update when token shape changes; approvals: Token Owner & Eng Lead.",
+  "$comment": "JSON Schema for tokens/tokens.json. Edit by Token Owner; update when token shape changes; approvals: Token Owner & Eng Lead.",
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Design System Tokens",
+  "title": "Design System Tokens Schema",
   "type": "object",
   "additionalProperties": true,
-  "description": "Root object containing token categories. Each category can be an object of nested tokens or token groups.",
+  "description": "Root object containing nested token categories. Each leaf token must be an object with a 'value' property.",
   "definitions": {
-    "tokenValue": {
+    "tokenPrimitive": {
       "type": ["string", "number", "boolean"],
-      "description": "Primitive token value (colors as strings, sizes as strings with units or numbers)."
+      "description": "Primitive token value (colors as strings, sizes as strings with units, numbers for unitless values)."
     },
     "tokenObject": {
       "type": "object",
       "required": ["value"],
       "properties": {
-        "value": { "$ref": "#/definitions/tokenValue" },
+        "value": { "$ref": "#/definitions/tokenPrimitive" },
         "type": {
           "type": "string",
-          "description": "Semantic token type (color, spacing, font-size, duration, easing, etc.)"
+          "description": "Optional semantic type hint (e.g., color, spacing, font-size, duration, easing, font-family, font-weight, line-height)"
         },
         "description": { "type": "string" },
         "deprecated": { "type": "boolean" },
         "replacement": { "type": "string" },
-        "meta": { "type": "object", "additionalProperties": true }
+        "meta": {
+          "type": "object",
+          "additionalProperties": true
+        }
       },
       "additionalProperties": false
     }
   },
   "patternProperties": {
-    "^[a-z0-9]+$": {
+    "^[a-z0-9]+(?:[-_][a-z0-9]+)*$": {
       "anyOf": [{ "$ref": "#/definitions/tokenObject" }, { "$ref": "#" }]
     }
-  }
+  },
+  "examples": [
+    {
+      "color": {
+        "brand": {
+          "primary": {
+            "value": "#0a84ff",
+            "type": "color",
+            "description": "Primary brand color"
+          }
+        }
+      }
+    }
+  ]
 }

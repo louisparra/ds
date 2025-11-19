@@ -1,131 +1,103 @@
 /*
 What this file is:
-Token validation script. Validates tokens/tokens.json and (if present) validates against tokens/tokens.schema.json using Ajv.
-
+Node script that validates tokens/tokens.json against tokens/tokens.schema.json using AJV.
 Who should edit it:
-Token Owner or an engineer. Expand validations as schema evolves.
-
+Token Owner or Tooling engineer. Update when schema location or validation policy changes.
 When to update (example):
-Update when schema changes, or when we need to validate additional fields (aliases, platform mappings).
-
+Add additional checks (e.g., color regex or unit rules) or change schema path.
 Who must approve changes:
-Token Owner and Engineering Lead.
+Token Owner & Engineering Lead.
 
-Usage:
-# run locally
-node scripts/token-validate.js
+Usage examples:
+  # default: validate tokens/tokens.json
+  node scripts/token-validate.js
+
+  # validate a specific file
+  node scripts/token-validate.js --file tokens/tokens.json
 
 Expected outputs:
-- If tokens missing: non-fatal warning (template stage) and exit 0.
-- If schema missing: basic existence & parse checks, exit 0.
-- If schema present and tokens valid: "OK: schema validation passed" and exit 0.
-- If schema present and tokens invalid: prints errors and exits 1.
+  - Exit code 0 and message "OK: schema validation passed for <file>" if valid.
+  - Exit code 1 and printed list of schema errors if invalid.
+  - Exit code 2 on filesystem/read errors.
 */
 
 const fs = require('fs');
 const path = require('path');
+const Ajv = require('ajv');
 
-const TOKENS_PATH = path.join(process.cwd(), 'tokens', 'tokens.json');
-const SCHEMA_PATH = path.join(process.cwd(), 'tokens', 'tokens.schema.json');
+function usage() {
+  console.log('Usage: node scripts/token-validate.js [--file path/to/tokens.json]');
+  process.exit(2);
+}
 
-// Helper: safe read JSON
-function readJSON(filePath) {
+const args = process.argv.slice(2);
+let fileArg = args.find((a) => a.startsWith('--file='));
+if (!fileArg) {
+  const idx = args.indexOf('--file');
+  if (idx !== -1 && args[idx + 1]) fileArg = `--file=${args[idx + 1]}`;
+}
+const tokensPath = fileArg
+  ? path.resolve(process.cwd(), fileArg.split('=')[1])
+  : path.resolve(process.cwd(), 'tokens', 'tokens.json');
+const schemaPath = path.resolve(process.cwd(), 'tokens', 'tokens.schema.json');
+
+function readJsonFile(p) {
   try {
-    const raw = fs.readFileSync(filePath, 'utf8');
-    return JSON.parse(raw);
+    return JSON.parse(fs.readFileSync(p, 'utf8'));
   } catch (e) {
-    throw new Error(`Failed to read/parse ${filePath}: ${e.message}`);
+    console.error(`ERROR: Failed to read or parse JSON file at ${p}`);
+    console.error(e.message);
+    process.exit(2);
   }
 }
 
-async function runSchemaValidation(tokens, schema) {
-  let Ajv;
-  try {
-    Ajv = require('ajv');
-  } catch (e) {
-    console.error('Ajv not installed. Install dev dependency "ajv" to enable schema validation.');
-    console.error(
-      'Fallback: skipping schema validation. To enable, run: npm install --save-dev ajv'
-    );
-    return { skipped: true };
-  }
-
-  const ajv = new Ajv({ allErrors: true, strict: false });
-  const validate = ajv.compile(schema);
-  const valid = validate(tokens);
-  if (valid) {
-    return { valid: true };
-  } else {
-    return { valid: false, errors: validate.errors };
-  }
+// Ensure files exist
+if (!fs.existsSync(schemaPath)) {
+  console.error(`ERROR: Schema file not found at ${schemaPath}`);
+  process.exit(2);
+}
+if (!fs.existsSync(tokensPath)) {
+  console.error(`ERROR: Tokens file not found at ${tokensPath}`);
+  process.exit(2);
 }
 
-function exitWithError(msg) {
-  console.error('ERROR:', msg);
-  process.exit(1);
-}
+// Load files
+const schema = readJsonFile(schemaPath);
+const tokens = readJsonFile(tokensPath);
 
-function exitWithWarn(msg) {
-  console.warn('WARN:', msg);
-  process.exit(0);
-}
-
-async function main() {
-  if (!fs.existsSync(TOKENS_PATH)) {
-    console.warn(
-      'WARN: tokens/tokens.json not found. If your project has no tokens yet, skip this check.'
-    );
-    process.exit(0); // non-failing in template stage
-  }
-
-  let tokens;
-  try {
-    tokens = readJSON(TOKENS_PATH);
-  } catch (e) {
-    exitWithError(e.message);
-  }
-
-  // Basic structural check (previous behavior)
-  if (typeof tokens !== 'object' || Array.isArray(tokens) || tokens === null) {
-    exitWithError('tokens/tokens.json should be a JSON object with semantic token keys.');
-  }
-  const topKeys = Object.keys(tokens);
-  if (topKeys.length === 0) {
-    console.warn('WARN: tokens/tokens.json is present but empty (no top-level keys).');
-    process.exit(0);
-  }
-
-  // If schema exists, run schema validation
-  if (fs.existsSync(SCHEMA_PATH)) {
-    let schema;
-    try {
-      schema = readJSON(SCHEMA_PATH);
-    } catch (e) {
-      exitWithError(e.message);
-    }
-
-    const result = await runSchemaValidation(tokens, schema);
-    if (result.skipped) {
-      console.log('Schema validation skipped (Ajv not installed).');
-      process.exit(0);
-    }
-    if (result.valid) {
-      console.log(`OK: schema validation passed for ${TOKENS_PATH}`);
-      process.exit(0);
-    } else {
-      console.error('Schema validation FAILED. Errors:');
-      result.errors.forEach((err) => {
-        console.error(` - ${err.instancePath || '(root)'} ${err.message}`);
-      });
-      process.exit(1);
-    }
-  } else {
-    console.log('No schema found at tokens/tokens.schema.json — basic checks passed.');
-    process.exit(0);
-  }
-}
-
-main().catch((err) => {
-  console.error('Unexpected error:', err);
-  process.exit(1);
+// Setup AJV
+const ajv = new Ajv({ allErrors: true, jsonPointers: true, verbose: true });
+require('ajv-errors')(ajv /* optional - better error messages if installed */, {
+  singleError: true,
 });
+// Note: ajv-errors is optional — if not installed, the require will fail; script tolerates absence.
+let compile;
+try {
+  compile = ajv.compile(schema);
+} catch (compileErr) {
+  console.error('ERROR: Failed to compile JSON schema:');
+  console.error(compileErr && compileErr.message ? compileErr.message : compileErr);
+  process.exit(2);
+}
+
+// Validate
+const valid = compile(tokens);
+
+if (valid) {
+  console.log(`OK: schema validation passed for ${tokensPath}`);
+  process.exit(0);
+} else {
+  console.error(`Schema validation failed for ${tokensPath}. Errors:`);
+  compile.errors.forEach((err) => {
+    // Ajv error object contains dataPath / instancePath and message
+    const dataPath = err.instancePath || err.dataPath || '';
+    console.error(` - ${dataPath} ${err.message}`);
+    if (err.params) {
+      // show additional hints for missing required properties
+      if (err.keyword === 'required' && err.params && err.params.missingProperty) {
+        console.error(`   -> Missing property: ${err.params.missingProperty}`);
+      }
+    }
+  });
+  process.exit(1);
+}
