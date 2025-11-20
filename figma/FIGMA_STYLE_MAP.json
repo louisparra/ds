@@ -1,8 +1,14 @@
 {
-  "_comment": "Mapping of Figma style names -> repo token keys. Edit by Token Owner or Design System Lead. Update when Figma style names or token dot.path keys change. Approvals: Token Owner & Engineering Lead.",
+  "_header": [
+    "What this file is: Single authoritative mapping of Figma style names -> repository token keys (dot.path). Used by adapters and sync tooling to resolve ambiguous names.",
+    "Who should edit it: Token Owner or Design System Lead (small mapping tweaks by maintainers OK).",
+    "When to update (example): Update when Figma style names change, when you add legacy/ambiguous styles, or when you need to override automatic transforms for a migration.",
+    "Who must approve changes: Token Owner & Engineering Lead."
+  ],
+  "_comment": "Mapping and guidance used by adapters and the figma-sync pipeline. Keep mappings minimal—only override when automatic mapping (replace '/' with '.' and lowercase) would be wrong or ambiguous.",
   "schemaVersion": "1.0",
   "generatedAt": "2025-11-19T00:00:00Z",
-  "description": "This file is a single authoritative mapping used by exporters and CI to translate Figma style names into canonical repo token keys (dot.path). Keep this minimal and machine-friendly.",
+  "description": "This file is a single authoritative mapping used by exporters, adapters and CI to translate Figma style names into canonical repo token keys (dot.path). Keep this minimal and machine-friendly.",
   "rules": {
     "defaultTransform": "replace_slash_with_dot_and_lowercase",
     "examples": [
@@ -13,10 +19,44 @@
       {
         "figma": "type/body/16-regular",
         "token": "type.body.16.regular"
+      },
+      {
+        "figma": "Brand Primary (legacy)",
+        "token": "color.brand.primary",
+        "note": "Example of a legacy or free-form Figma style name that needs an explicit mapping."
       }
     ],
-    "notes": "If a mapping is present here it overrides automatic mapping rules. Use explicit entries for ambiguous or legacy Figma style names."
+    "notes": "If a mapping is present here it overrides automatic mapping rules. Use explicit entries for ambiguous, legacy, or human-friendly Figma style names."
   },
+  "adapterExamples": [
+    {
+      "desc": "Figma Tokens plugin export → adapter → canonical JSON → figma-sync dry-run",
+      "steps": [
+        "1) Export from Figma Tokens: ./figma/figma-tokens-export.json",
+        "2) Convert with adapter: node scripts/adapters/figma-tokens-to-canonical.js --input ./figma/figma-tokens-export.json --output ./figma/canonical-export.json",
+        "3) Preview with sync: node scripts/figma-sync.js --input ./figma/canonical-export.json --map ./figma/FIGMA_STYLE_MAP.json --dry",
+        "Notes: During step (2) the adapter will generate dotPath for each token; the adapter should consult this mapping file and, if a Figma style name matches an explicit mapping, use the mapped dot.path instead of auto-deriving one."
+      ]
+    },
+    {
+      "desc": "Token Studio (Figma native tokens) export → adapter example",
+      "steps": [
+        "1) Export from Token Studio: ./figma/token-studio-export.json",
+        "2) Convert with adapter: node scripts/adapters/token-studio-to-canonical.js --input ./figma/token-studio-export.json --output ./figma/canonical-token-studio.json",
+        "3) Preview with sync: node scripts/figma-sync.js --input ./figma/canonical-token-studio.json --map ./figma/FIGMA_STYLE_MAP.json --dry",
+        "Notes: The adapter should normalize nested categories into token.name (slash form) and populate dotPath; explicit mappings in this file override auto-generated dotPath values."
+      ]
+    },
+    {
+      "desc": "How explicit mapping overrides auto transforms (practical example)",
+      "example": {
+        "figmaStyleName": "Primary",
+        "autoTransformResult": "primary",
+        "explicitMapping": "color.brand.primary",
+        "adapterBehavior": "Adapter must detect that 'Primary' exists in FIGMA_STYLE_MAP.json and set token.dotPath to 'color.brand.primary' instead of 'primary'."
+      }
+    }
+  ],
   "mappings": {
     "color/brand/primary": "color.brand.primary",
     "color/brand/secondary": "color.brand.secondary",
@@ -25,10 +65,18 @@
     "type/body/16-regular": "type.body.16.regular",
     "spacing/scale/1": "spacing.scale.1",
     "spacing/scale/2": "spacing.scale.2",
-    "effect/shadow/card": "effect.shadow.card"
+    "effect/shadow/card": "effect.shadow.card",
+    "Primary": "color.brand.primary",
+    "Secondary Accent": "color.brand.secondary",
+    "BG / Page": "color.bg.page"
   },
   "transformHints": {
     "autoRule": "When a mapping is not present, tooling should map by replacing '/' with '.' and lowercasing (e.g., color/brand/primary -> color.brand.primary). Numeric segments remain unchanged.",
-    "overridePriority": "explicit mapping > autoRule"
+    "overridePriority": "explicit mapping > autoRule",
+    "adapterGuidance": "Adapters MUST: (1) prefer token.dotPath when present in the canonical export; (2) consult this mappings table for exact figma style name matches BEFORE applying the autoRule; (3) write the chosen dotPath into the canonical token output so sync tooling has an authoritative key.",
+    "edgeCases": [
+      "If a Figma style name contains chars/spaces/case that would lose meaning under autoRule (e.g., 'Primary', 'Primary / Hover', 'Brand—Primary'), add an explicit mapping here.",
+      "For localization or multi-team repos, consider prefixing Figma styles with team/namespace to avoid collisions and reduce mapping needs."
+    ]
   }
 }
