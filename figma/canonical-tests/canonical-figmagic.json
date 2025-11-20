@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0",
+  "exportedAt": "2025-11-20T00:31:25.993Z",
+  "source": {
+    "plugin": "figmagic-adapter"
+  },
+  "tokens": [
+    {
+      "name": "color.brand.primary",
+      "dotPath": "color.brand.primary",
+      "value": "#0A84FF",
+      "type": "color",
+      "meta": {
+        "raw": {
+          "value": "#0A84FF",
+          "type": "color"
+        }
+      }
+    },
+    {
+      "name": "color.bg.page",
+      "dotPath": "color.bg.page",
+      "value": "#FFFFFF",
+      "type": "color",
+      "meta": {
+        "raw": {
+          "value": "#FFFFFF",
+          "type": "color"
+        }
+      }
+    },
+    {
+      "name": "type.body.16.regular",
+      "dotPath": "type.body.16.regular",
+      "value": {
+        "fontFamily": "Inter",
+        "fontSize": 16,
+        "fontWeight": 400,
+        "lineHeight": 24
+      },
+      "type": "typography",
+      "meta": {
+        "raw": {
+          "value": {
+            "fontFamily": "Inter",
+            "fontSize": 16,
+            "fontWeight": 400,
+            "lineHeight": 24
+          },
+          "type": "typography"
+        }
+      }
+    }
+  ]
+}

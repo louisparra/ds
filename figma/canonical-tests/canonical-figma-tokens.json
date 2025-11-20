@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "1.0",
+  "exportedAt": "2025-11-20T00:31:25.842Z",
+  "source": {
+    "plugin": "figma-tokens-adapter"
+  },
+  "tokens": [
+    {
+      "name": "global/color/brand/primary",
+      "dotPath": "color.brand.primary",
+      "type": "color",
+      "value": "#0A84FF",
+      "description": "Primary brand color",
+      "meta": {
+        "raw": {
+          "value": "#0A84FF",
+          "type": "color",
+          "description": "Primary brand color"
+        }
+      }
+    },
+    {
+      "name": "global/color/brand/secondary",
+      "dotPath": "color.brand.secondary",
+      "type": "color",
+      "value": "#FF6B6B",
+      "description": "Secondary brand color",
+      "meta": {
+        "raw": {
+          "value": "#FF6B6B",
+          "type": "color",
+          "description": "Secondary brand color"
+        }
+      }
+    },
+    {
+      "name": "global/type/body/16-regular",
+      "dotPath": "type.body.16.regular",
+      "type": "typography",
+      "value": {
+        "fontFamily": "Inter",
+        "fontSize": 16,
+        "fontWeight": 400,
+        "lineHeight": 24
+      },
+      "description": "Body text 16 regular",
+      "meta": {
+        "raw": {
+          "value": {
+            "fontFamily": "Inter",
+            "fontSize": 16,
+            "fontWeight": 400,
+            "lineHeight": 24
+          },
+          "type": "typography",
+          "description": "Body text 16 regular"
+        }
+      }
+    }
+  ]
+}

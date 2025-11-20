@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0",
+  "exportedAt": "2025-11-20T00:31:25.918Z",
+  "source": {
+    "plugin": "token-studio-adapter"
+  },
+  "tokens": [
+    {
+      "name": "color/brand/primary",
+      "dotPath": "color.brand.primary",
+      "value": "#0A84FF",
+      "type": "color",
+      "description": "Brand primary color",
+      "meta": {
+        "raw": {
+          "value": "#0A84FF",
+          "type": "color",
+          "description": "Brand primary color"
+        }
+      }
+    },
+    {
+      "name": "color/brand/muted",
+      "dotPath": "color.brand.muted",
+      "value": "#F2F4F8",
+      "type": "color",
+      "description": "Muted background",
+      "meta": {
+        "raw": {
+          "value": "#F2F4F8",
+          "type": "color",
+          "description": "Muted background"
+        }
+      }
+    },
+    {
+      "name": "spacing/scale/4",
+      "dotPath": "spacing.scale.4",
+      "value": "16px",
+      "type": "spacing",
+      "description": "Spacing step 4",
+      "meta": {
+        "raw": {
+          "value": "16px",
+          "type": "spacing",
+          "description": "Spacing step 4"
+        }
+      }
+    }
+  ]
+}

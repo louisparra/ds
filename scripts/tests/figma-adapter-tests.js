@@ -118,6 +118,18 @@ const tests = [
       // Basic assertions: expect expectedKeys to be referenced in the output (report)
       for (const key of t.expectedKeys) {
         if (!out.includes(key)) {
+          // On failure, print the generated canonical file to help debugging (first 4k chars)
+          try {
+            const generated = fs.readFileSync(t.canonicalOut, 'utf8');
+            console.error(
+              `\n--- Generated canonical JSON (${t.canonicalOut}) preview ---\n${generated.slice(
+                0,
+                4000
+              )}\n--- end preview ---\n`
+            );
+          } catch (e) {
+            console.error('Unable to read generated canonical JSON for debug.');
+          }
           throw new Error(
             `Expected token key "${key}" not found in sync report output for test "${t.name}".\nOutput:\n${out}`
           );
