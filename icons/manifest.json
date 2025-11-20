@@ -1,0 +1,66 @@
+{
+  "_header": [
+    "What this file is: Machine-readable manifest listing every icon in the master set and metadata used by build scripts and consumers.",
+    "Who should edit it: Icon Owner or Design System Lead (small additions by maintainers ok).",
+    "When to update (example): Add a new manifest entry when you add a new SVG into icons/svgs/.",
+    "Who must approve changes: Design System Lead & Engineering Lead."
+  ],
+  "schemaVersion": "1.0",
+  "generatedAt": "2025-11-19T00:00:00Z",
+  "description": "Manifest for the canonical SVG icon library. Consumers and scripts should read this file to create registries, components, or sprite mappings.",
+  "icons": [
+    {
+      "name": "arrow-right",
+      "dotPath": "icon.arrow.right",
+      "filename": "svgs/arrow-right.svg",
+      "viewBox": "0 0 24 24",
+      "keywords": ["navigation", "forward", "next", "arrow"],
+      "size": 24,
+      "category": "ui",
+      "license": "CC-BY-4.0",
+      "notes": "Use for actions that navigate forward."
+    },
+    {
+      "name": "close",
+      "dotPath": "icon.close",
+      "filename": "svgs/close.svg",
+      "viewBox": "0 0 24 24",
+      "keywords": ["dismiss", "close", "x", "cancel"],
+      "size": 24,
+      "category": "ui",
+      "license": "CC-BY-4.0",
+      "notes": "Use for dismiss and close actions. Prefer accessible label via aria-label."
+    },
+    {
+      "name": "search",
+      "dotPath": "icon.search",
+      "filename": "svgs/search.svg",
+      "viewBox": "0 0 24 24",
+      "keywords": ["find", "lookup", "magnifier"],
+      "size": 24,
+      "category": "ui",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "name": "menu",
+      "dotPath": "icon.menu",
+      "filename": "svgs/menu.svg",
+      "viewBox": "0 0 24 24",
+      "keywords": ["menu", "navigation", "hamburger"],
+      "size": 24,
+      "category": "ui",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "name": "avatar",
+      "dotPath": "icon.avatar",
+      "filename": "svgs/avatar.svg",
+      "viewBox": "0 0 24 24",
+      "keywords": ["user", "profile", "person"],
+      "size": 24,
+      "category": "illustration",
+      "license": "CC-BY-4.0",
+      "notes": "Default user avatar outline."
+    }
+  ]
+}
