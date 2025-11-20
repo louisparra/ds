@@ -1,0 +1,35 @@
+{
+  "_comment": "Manifest describing the figma templates included in this repo. Edit by Design System Lead.",
+  "schemaVersion": "1.0",
+  "generatedAt": "2025-11-19T00:00:00Z",
+  "templates": [
+    {
+      "file": "figma/templates/token-source-frame.svg",
+      "targetPage": "00 — Tokens (source)",
+      "role": "Token source",
+      "contents": [
+        "Color swatches (convert to Color Styles)",
+        "Typography samples (convert to Text Styles)",
+        "Spacing scale blocks",
+        "Notes for token owners"
+      ],
+      "importHint": "paste SVG markup into Figma (paste-as-SVG) and convert shapes to styles"
+    },
+    {
+      "file": "figma/templates/component-library-frame.svg",
+      "targetPage": "01 — Components (library)",
+      "role": "Component library",
+      "contents": [
+        "Core component placeholders (Button, Card, Input)",
+        "Variant naming examples",
+        "Token annotation area"
+      ]
+    },
+    {
+      "file": "figma/templates/usage-kit-frame.svg",
+      "targetPage": "03 — Usage & Guidelines",
+      "role": "Usage + patterns",
+      "contents": ["Dos & Don'ts", "Accessibility quick checks", "Platform guidance snippets"]
+    }
+  ]
+}

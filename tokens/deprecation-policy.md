@@ -16,7 +16,7 @@ Token Owner, Product/Brand, and Engineering Lead.
 
 This document explains how tokens are deprecated, what metadata is required, the minimum notice window, and the approval flow.
 
-## Key rules (short)
+## Key rules
 
 - **Soft deprecation first**: mark tokens as `deprecated: true` and provide a `replacement` token key before removing or renaming.
 - **Minimum notice window**: 2 weeks for minor tokens; 4 weeks for brand/marketing tokens or tokens used by external consumers.

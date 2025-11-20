@@ -12,7 +12,7 @@ Who must approve changes:
 Design System Lead and Engineering Lead must approve the final answers (add their names in the Owners section).
 -->
 
-# Project Configuration (project-config.md)
+# Project Configuration
 
 > Fill this file during discovery / kickoff. Answers here are used to configure the design-system template for this organization.
 > If you prefer a guided flow, run: `node scripts/bootstrap-template.js --init` (see scripts/bootstrap-template.js for usage).

@@ -1,0 +1,44 @@
+<!--
+What this file is:
+SVG scaffold for a "Usage & Guidelines" frame illustrating patterns, dos/don'ts and platform notes.
+
+Who should edit it:
+Design System Lead, Content Designer.
+
+When to update (example):
+Update when usage guidance or platform specifics change.
+
+Who must approve changes:
+Design System Lead & Product Manager.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <style>
+    .title{font: bold 20px Arial, sans-serif; fill:#102030}
+    .label{font: 13px Arial, sans-serif; fill:#102030}
+    .small{font: 11px Arial, sans-serif; fill:#6B7280}
+  </style>
+
+  <rect x="0" y="0" width="1200" height="700" fill="#FFFFFF" stroke="#E6E9EF"/>
+  <text x="24" y="36" class="title">Usage & Guidelines</text>
+  <text x="24" y="60" class="small">Page: 03 — Usage & Guidelines — show real examples and accessibility notes</text>
+
+  <!-- Dos / Don'ts -->
+  <g transform="translate(24,96)">
+    <rect x="0" y="0" width="540" height="220" rx="8" fill="#F6FFFB" stroke="#E6F6ED"/>
+    <text x="12" y="24" class="label">Dos</text>
+    <text x="12" y="48" class="small">• Use semantic tokens for colors and typography</text>
+    <text x="12" y="70" class="small">• Use spacing scale for margins/padding</text>
+
+    <rect x="580" y="0" width="540" height="220" rx="8" fill="#FFF6F6" stroke="#F6E6E6"/>
+    <text x="592" y="24" class="label">Don'ts</text>
+    <text x="592" y="48" class="small">• Hardcode pixel colors in components</text>
+    <text x="592" y="70" class="small">• Use ad-hoc spacing instead of the scale</text>
+  </g>
+
+  <!-- Accessibility quick checks -->
+  <g transform="translate(24, 340)">
+    <text x="0" y="0" class="label">Accessibility</text>
+    <text x="0" y="24" class="small">• Check contrast (AA/AAA) for text styles</text>
+    <text x="0" y="44" class="small">• Provide keyboard focus styles for interactive components</text>
+  </g>
+</svg>

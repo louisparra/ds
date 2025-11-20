@@ -1,0 +1,75 @@
+<!--
+What this file is:
+SVG scaffold for a "Tokens — Source" frame. Paste into Figma and convert rectangles/text to Color/Text Styles.
+
+Who should edit it:
+Design System Lead or Design Tokens Owner.
+
+When to update (example):
+Update when token categories change (add new categories like motion or elevation).
+
+Who must approve changes:
+Token Owner & Engineering Lead.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <style>
+    .title{font: bold 20px Arial, sans-serif; fill:#102030}
+    .section{font: 14px Arial, sans-serif; fill:#102030}
+    .label{font: 12px Arial, sans-serif; fill:#102030}
+    .swatchLabel{font: 11px Arial, sans-serif; fill:#102030}
+  </style>
+
+  <!-- Frame background + title -->
+  <rect x="0" y="0" width="1200" height="800" fill="#FFFFFF" stroke="#E6E9EF"/>
+  <text x="24" y="36" class="title">Tokens — Source</text>
+  <text x="24" y="60" class="section">Page: 00 — Tokens (source) — convert these shapes to Color/Text Styles</text>
+
+  <!-- Color palette sample -->
+  <text x="24" y="100" class="section">Colors</text>
+  <!-- swatches row -->
+  <g transform="translate(24, 112)">
+    <!-- swatch 1 -->
+    <rect x="0" y="0" width="120" height="72" fill="#0A84FF" stroke="#BBB"/>
+    <text x="4" y="88" class="swatchLabel">color/brand/primary</text>
+
+    <rect x="140" y="0" width="120" height="72" fill="#FF6B6B" stroke="#BBB"/>
+    <text x="140" y="88" class="swatchLabel">color/brand/secondary</text>
+
+    <rect x="280" y="0" width="120" height="72" fill="#F2F4F8" stroke="#BBB"/>
+    <text x="280" y="88" class="swatchLabel">color/ui/background</text>
+
+    <rect x="420" y="0" width="120" height="72" fill="#091625" stroke="#BBB"/>
+    <text x="420" y="88" class="swatchLabel">color/text/primary</text>
+  </g>
+
+  <!-- Typography sample -->
+  <text x="24" y="160" class="section">Typography</text>
+  <g transform="translate(24,172)">
+    <text x="0" y="0" class="label" style="font-size:20px">Inter — 24 / 600</text>
+    <text x="0" y="28" class="swatchLabel">type/heading/24-bold</text>
+
+    <text x="300" y="0" class="label" style="font-size:16px">Inter — 16 / 400</text>
+    <text x="300" y="28" class="swatchLabel">type/body/16-regular</text>
+
+    <text x="600" y="0" class="label" style="font-size:14px">Inter — 14 / 400</text>
+    <text x="600" y="28" class="swatchLabel">type/caption/14-regular</text>
+  </g>
+
+  <!-- Spacing scale -->
+  <text x="24" y="260" class="section">Spacing / Scale</text>
+  <g transform="translate(24,272)">
+    <rect x="0" y="0" width="40" height="40" fill="#E6EEF8" stroke="#CCC"/>
+    <text x="0" y="56" class="swatchLabel">spacing/scale/1 (4px)</text>
+
+    <rect x="80" y="0" width="80" height="80" fill="#EDEFF5" stroke="#CCC"/>
+    <text x="80" y="96" class="swatchLabel">spacing/scale/2 (8px)</text>
+
+    <rect x="180" y="0" width="160" height="160" fill="#F7F9FC" stroke="#CCC"/>
+    <text x="180" y="176" class="swatchLabel">spacing/scale/4 (16px)</text>
+  </g>
+
+  <!-- Comments & guidance -->
+  <text x="24" y="480" class="section">Notes</text>
+  <text x="24" y="500" class="label" style="font-size:12px;fill:#345">• Convert color swatches to Color Styles and name them exactly (slash-form) or put dot.path in the description.</text>
+  <text x="24" y="520" class="label" style="font-size:12px;fill:#345">• Keep this page tokens-only. Presentational elements belong in Components page.</text>
+</svg>

@@ -12,7 +12,7 @@ Who must approve changes:
 Design System Lead & Product/Brand.
 -->
 
-# Figma library structure — canonical layout
+# Figma library structure
 
 This document prescribes a single predictable organization for the Figma design library so designers and devs can find styles, components, and tokens easily.
 

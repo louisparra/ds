@@ -12,7 +12,7 @@ Who must approve changes:
 Token Owner & Engineering Lead.
 -->
 
-# Canonical Figma export schema (recommended)
+# Figma export schema
 
 ## Purpose
 

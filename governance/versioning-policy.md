@@ -18,7 +18,7 @@ This document defines how the design system versions artifacts (tokens, componen
 
 ---
 
-## Key principles (short)
+## Key principles
 
 - **Semantic versioning (SemVer)** is used: `MAJOR.MINOR.PATCH`.
 

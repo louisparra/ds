@@ -1,6 +1,6 @@
 <!--
 What this file is:
-Guidance for the canonical tokens (tokens/tokens.json): structure, editing rules, and workflows.
+Guidance for tokens (tokens/tokens.json): structure, editing rules, and workflows.
 
 Who should edit it:
 Token Owner, Design Lead, or Docs Owner.
@@ -12,7 +12,7 @@ Who must approve changes:
 Token Owner & Design System Lead.
 -->
 
-# Tokens — canonical single source of truth
+# Tokens — single source of truth
 
 This folder contains the canonical tokens that feed the design system pipeline (Style Dictionary, builds, Storybook, etc.).
 

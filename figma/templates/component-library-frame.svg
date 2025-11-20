@@ -1,0 +1,47 @@
+<!--
+What this file is:
+SVG scaffold for a "Components — Library" frame. Paste into Figma and replace placeholders with real components.
+
+Who should edit it:
+Component authors and Design System Lead.
+
+When to update (example):
+Update when you add new core components.
+
+Who must approve changes:
+Design System Lead & Engineering Lead.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <style>
+    .title{font: bold 20px Arial, sans-serif; fill:#102030}
+    .label{font: 12px Arial, sans-serif; fill:#102030}
+    .small{font: 11px Arial, sans-serif; fill:#6B7280}
+  </style>
+
+  <rect x="0" y="0" width="1200" height="800" fill="#FFFFFF" stroke="#E6E9EF"/>
+  <text x="24" y="36" class="title">Components — Library</text>
+  <text x="24" y="60" class="small">Page: 01 — Components (library). Each component should be a frame with variant names and annotated token usage.</text>
+
+  <!-- Component grid placeholders -->
+  <g transform="translate(24, 96)">
+    <!-- Button component -->
+    <rect x="0" y="0" width="240" height="56" rx="8" fill="#0A84FF" stroke="#0A84FF"/>
+    <text x="120" y="34" class="label" style="fill:#fff;text-anchor:middle;font-weight:bold">Button / primary / default</text>
+    <text x="0" y="74" class="small">Tokens: color.brand.primary, type/button/16, spacing/scale/2</text>
+
+    <!-- Card component -->
+    <rect x="280" y="0" width="320" height="160" rx="12" fill="#fff" stroke="#E6E9EF"/>
+    <text x="320" y="24" class="label">Card / default</text>
+    <text x="280" y="184" class="small">Tokens: effect.shadow.card, spacing/scale/3</text>
+
+    <!-- Input component -->
+    <rect x="620" y="0" width="320" height="48" rx="8" fill="#fff" stroke="#D1D5DB"/>
+    <text x="640" y="30" class="label">Input / default</text>
+    <text x="620" y="74" class="small">Tokens: color.ui.background, type/input/14</text>
+  </g>
+
+  <!-- Component guidelines -->
+  <text x="24" y="280" class="section">Variant naming & structure</text>
+  <text x="24" y="300" class="small">• Name component frames as: component/variant/state/label (e.g., button/primary/hover/default)</text>
+  <text x="24" y="320" class="small">• Annotate which tokens are used in the frame (put tokens in a small sticky note near the component)</text>
+</svg>

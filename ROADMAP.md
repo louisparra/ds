@@ -27,7 +27,7 @@ This document maps the rollout across five phases with measurable milestones. Us
 
 ---
 
-## High-level phases (short)
+## High-level phases
 
 A. Discover & Bootstrap  
 B. Tokens & First Components (Core 10 baseline)  
