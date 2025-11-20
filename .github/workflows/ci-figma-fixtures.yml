@@ -1,0 +1,52 @@
+# What this file is:
+# CI job that runs adapters against fixtures and then runs scripts/figma-sync.js --dry to validate adapter+sync pipeline.
+# It is intended as a lightweight unit test to prevent regressions in adapters or the sync script.
+#
+# Who should edit it:
+# Tooling Engineers, Token Owner.
+#
+# When to update (example):
+# Update when adding new adapters or fixtures, or when the canonical schema changes.
+#
+# Who must approve changes:
+# Token Owner & Engineering Lead.
+
+name: CI — Figma adapter fixtures tests
+
+on:
+  push:
+    paths:
+      - 'scripts/adapters/**'
+      - 'scripts/figma-sync.js'
+      - 'figma/fixtures/**'
+      - '.github/workflows/ci-figma-fixtures.yml'
+  pull_request:
+    paths:
+      - 'scripts/adapters/**'
+      - 'scripts/figma-sync.js'
+      - 'figma/fixtures/**'
+      - '.github/workflows/ci-figma-fixtures.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  adapter-fixtures-test:
+    name: Adapter fixtures → sync dry-run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run adapter + sync tests
+        run: node scripts/tests/figma-adapter-tests.js

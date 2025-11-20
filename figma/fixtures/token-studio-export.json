@@ -1,0 +1,29 @@
+{
+  "_comment": "Sample export resembling Token Studio / Figma native token export shapes.",
+  "schemaVersion": "1.0",
+  "tokens": {
+    "color": {
+      "brand": {
+        "primary": {
+          "value": "#0A84FF",
+          "type": "color",
+          "description": "Brand primary color"
+        },
+        "muted": {
+          "value": "#F2F4F8",
+          "type": "color",
+          "description": "Muted background"
+        }
+      }
+    },
+    "spacing": {
+      "scale": {
+        "4": {
+          "value": "16px",
+          "type": "spacing",
+          "description": "Spacing step 4"
+        }
+      }
+    }
+  }
+}

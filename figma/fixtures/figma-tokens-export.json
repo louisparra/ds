@@ -1,0 +1,33 @@
+{
+  "_comment": "Sample export shaped like a typical 'Figma Tokens' plugin nested export. Used for adapter tests and examples. Edit only to extend fixtures.",
+  "global": {
+    "color": {
+      "brand": {
+        "primary": {
+          "value": "#0A84FF",
+          "type": "color",
+          "description": "Primary brand color"
+        },
+        "secondary": {
+          "value": "#FF6B6B",
+          "type": "color",
+          "description": "Secondary brand color"
+        }
+      }
+    },
+    "type": {
+      "body": {
+        "16-regular": {
+          "value": {
+            "fontFamily": "Inter",
+            "fontSize": 16,
+            "fontWeight": 400,
+            "lineHeight": 24
+          },
+          "type": "typography",
+          "description": "Body text 16 regular"
+        }
+      }
+    }
+  }
+}

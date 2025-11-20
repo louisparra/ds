@@ -1,0 +1,4 @@
+{
+  "color/brand/primary": { "value": "#0A84FF", "type": "color" },
+  "type/body/16-regular": { "value": "Inter, 16", "type": "type" }
+}

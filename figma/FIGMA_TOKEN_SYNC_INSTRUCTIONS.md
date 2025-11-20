@@ -1,41 +1,36 @@
 <!--
 What this file is:
 Operational instructions for syncing Figma style exports into repository tokens/tokens.json.
-
 Who should edit it:
 Design System Lead, Token Owner, or Tooling Engineer.
-
 When to update (example):
-Update when export plugin choices or mapping rules change.
-
+Update when export plugin choices, mapping rules, or canonical schema change.
 Who must approve changes:
 Token Owner & Engineering Lead.
 -->
 
 # Figma → Repo token sync instructions
 
-Purpose: This document describes a safe, repeatable process for exporting Figma styles (using the Figma Tokens plugin or equivalent) and converting them into the canonical `tokens/tokens.json` format used by the repo. Use this playbook for everyday syncs and for release-time publishing.
+**NOTE:** This document now depends on the repository's canonical export schema. Before running any automated sync you should either produce an export that matches the canonical schema or run an adapter that converts your plugin's export into it.
+
+**Canonical schema:** `figma/CANONICAL_EXPORT_SCHEMA.md` — **use this as the single source of truth** for what shape exports must have before the `scripts/figma-sync.js` converter runs. Adapters convert plugin-specific exports into the canonical shape.
 
 ---
 
 ## Overview (fast summary)
 
-1. Export from Figma (Figma Tokens plugin) → file `figma-export.json` (dot-path or style-name format).
-2. Run conversion script to map Figma style names to repo token keys using `figma/FIGMA_STYLE_MAP.json`. (Tooling step).
-3. Validate tokens: `npm run token-validate` + `npm run token-lint:local`.
-4. Create PR: include `tokens/tokens.json` update, `figma/FIGMA_STYLE_MAP.json` changes (if any), and a short migration note.
-5. Let CI run `token-validate` and `token-lint:ci` and the migration report workflow (if migration JSON added).
+1. Export from Figma (recommended: Figma Tokens or another token plugin) → produce a plugin export file.
+2. Convert plugin export → canonical schema (use an adapter or produce canonical export directly). See `figma/CANONICAL_EXPORT_SCHEMA.md`.
+3. Run conversion script to map canonical export to `tokens/tokens.json` using `scripts/figma-sync.js` (use `--dry` first).
+4. Validate tokens: `npm run token-validate` + `npm run token-lint:local`.
+5. Create PR: include `tokens/tokens.json` update, `figma/FIGMA_STYLE_MAP.json` changes (if any), and a short migration note.
+6. Let CI run `token-validate` and `token-lint:ci` and the migration report workflow.
 
 ---
 
-## Export from Figma (recommended: Figma Tokens plugin)
+## Export from Figma (recommended plugin approach)
 
-1. Open `DS.Core` (or your canonical library file).
-2. Run the **Figma Tokens** plugin. Configure export to produce a JSON file with styles. Recommended settings:
-   - Export format: JSON
-   - Naming: keep style names with `/` groups (e.g., `color/brand/primary`)
-   - If plugin offers dot-path output, prefer `color.brand.primary` format — but our tooling prefers slash format and will map to dot.path via `FIGMA_STYLE_MAP.json`.
-3. Export -> save as `figma-export.json` to your local machine.
+- We recommend the **Figma Tokens** plugin because it is widely used, but you may use any plugin. The requirement is: **before running sync scripts in CI, ensure you have a file in the canonical schema** (see `figma/CANONICAL_EXPORT_SCHEMA.md`) or include a plugin-specific export that CI can convert via an adapter.
 
 ---
 
@@ -43,38 +38,29 @@ Purpose: This document describes a safe, repeatable process for exporting Figma 
 
 ### Option A — Automated (recommended)
 
-> Requires a small script: `scripts/figma-sync.js` (not included yet). Command (example):
+- Use an adapter to convert plugin export → canonical JSON, then run the sync script in dry-run:
 
 ```bash
-# from repo root
-node scripts/figma-sync.js --input ./figma-export.json --map ./figma/FIGMA_STYLE_MAP.json --output ./tokens/tokens.json --dry
+# adapter step (example adapter path; adapters are optional)
+node scripts/adapters/figma-tokens-to-canonical.js --input ./figma/figma-export.json --output ./figma/canonical-export.json
+
+# preview the sync (dry-run)
+node scripts/figma-sync.js --input ./figma/canonical-export.json --map ./figma/FIGMA_STYLE_MAP.json --dry
 ```
 
-- `--dry` prints diff/preview without overwriting `tokens/tokens.json`.
-- Without `--dry` the script will:
-  - Validate that outputs are syntactically valid JSON matching the token schema.
-  - Create a timestamped backup of existing `tokens/tokens.json`.
-  - Write the new `tokens/tokens.json`.
-
-**Script behavior expectations**
-
-- When an explicit mapping exists in `FIGMA_STYLE_MAP.json.mappings`, use it.
-- Otherwise apply default transform: replace `/` with `.` and lowercase the result.
-- Merge exported tokens into existing tokens carefully:
-  - Add new tokens.
-  - Update values for matching tokens (preserve `description`, `deprecated`, and owner metadata unless explicitly overwritten).
-  - Do **not** automatically delete tokens; deletion must be handled via deprecation/migration flow.
+- The canonical JSON must match `figma/CANONICAL_EXPORT_SCHEMA.md`. The adapter should populate `dotPath` where possible and include `meta` information if available.
 
 ### Option B — Manual (safe)
 
-1. Export JSON from Figma as `figma-export.json`.
-2. Open `tokens/tokens.json` in editor.
-3. For each exported style:
-   - Determine its canonical token key (`FIGMA_STYLE_MAP.json` or auto rule).
-   - Manually insert/update the `value` field under that dot.path in `tokens/tokens.json`.
-   - Save file and run `npm run token-validate`.
+1. Export JSON from Figma.
+2. Manually transform the file to the canonical schema (follow `figma/CANONICAL_EXPORT_SCHEMA.md`) or copy token values into `tokens/tokens.json` manually.
+3. Run validation locally:
 
-Manual is slower but recommended if this is your first sync.
+```bash
+npm ci
+npm run token-validate
+npm run token-lint:local
+```
 
 ---
 
@@ -84,42 +70,76 @@ Run these locally, fix any errors, then commit:
 
 ```bash
 npm ci
+# dry-run the figma sync converter
+node scripts/figma-sync.js --input ./figma/canonical-export.json --map ./figma/FIGMA_STYLE_MAP.json --dry
+
+# schema + lint checks
 npm run token-validate
-npm run token-lint:local   # runs the faster lint checks locally
-# Optionally, run the deeper CI lint:
-npm run token-lint:ci
+npm run token-lint:local
 ```
 
-- Resolve all schema and key-format issues. If token-lint flags semantic issues, discuss them with Token Owner.
+- If the dry-run report looks correct, proceed to create a PR with the canonical export (or with the derived `tokens/tokens.json`) and mapping updates if needed.
 
 ---
 
 ## PR checklist (what to include in your PR)
 
-- Updated `tokens/tokens.json` (do not modify unrelated tokens).
+- Updated `tokens/tokens.json` (or canonical export if you prefer humans to review before apply).
 - If you added or renamed Figma styles that require mapping overrides, update `figma/FIGMA_STYLE_MAP.json` and explain why in PR description.
-- If this export requires migration (renames/deprecations), include a migration JSON under `tokens/migrations/` using the template. Run `node scripts/report-migrations.js --file tokens/migrations/<file>.json` and paste the report in PR.
-- Add short release notes in PR: list of top-level tokens changed, impacted packages/apps, and suggested rollout window.
+- If this export requires migration (renames/deprecations), include a migration JSON under `tokens/migrations/` using the template and run the migration report script.
+- Add short release notes in PR: list of top-level tokens changed and affected packages/apps.
 
 ---
 
-## Approvals & Releases
+## CI expectations
 
-- Token changes that affect branding or critical UI (criticality=high in `tokens/metadata.json`) must be approved by Token Owner + Product/Brand before merging.
-- For non-critical cosmetic tokens you can proceed after Token Owner review.
-- After merge: maintainers should publish new tokens package (see `packages/tokens/package.json`) and inform consuming teams.
+- CI will run `scripts/figma-sync.js` in **dry-run** for PRs (see workflow `.github/workflows/figma-sync-dry-run.yml`) and post a Markdown report as a PR comment.
+- The CI job expects either:
+  - a canonical export file (recommended), or
+  - a plugin export plus an adapter step (CI runs adapter -> canonical -> dry-run).
+- The canonical schema is authoritative — if CI cannot parse the export, the PR will receive instructions to include a canonical export or to add an adapter.
+
+---
+
+## Apply step (maintainer-only)
+
+- Applying the changes (non-dry) writes `tokens/tokens.json` and creates a timestamped backup. Only maintainers or release engineers should run apply in the repository or via a protected workflow after approvals:
+
+```bash
+# apply locally (maintainer)
+node scripts/figma-sync.js --input ./figma/canonical-export.json --map ./figma/FIGMA_STYLE_MAP.json --output ./tokens/tokens.json
+```
+
+- After apply, run full CI, merge PR, and follow the release/publish steps for tokens package.
 
 ---
 
 ## Rollback plan
 
-- The automated script creates `tokens/tokens.json.bak.<timestamp>.json`. To rollback:
+- The apply step creates a backup such as `tokens/tokens.json.bak.<timestamp>.json`. To rollback:
   1. Restore the backup locally.
-  2. Open a PR reversing the change with explanation and notify impacted teams.
+  2. Open a PR that reverts the change and document the reason.
 
 ---
 
-## Security & data hygiene
+## Security & hygiene
 
-- Do not export tokens that embed PII or secrets. If you need realistic data for visual testing, use synthetic fixtures.
-- Keep `figma-export.json` local and avoid committing raw exports; commit only the canonical `tokens/tokens.json` and `FIGMA_STYLE_MAP.json`.
+- **Do not** export PII or secrets in token exports. If you need realistic data for visuals, sanitize or use synthetic fixtures.
+- Treat exported JSON as code — review in PRs and restrict apply permissions to maintainers.
+
+---
+
+## Quick recommendations to adopters
+
+- Prefer producing canonical export files; it simplifies CI and reduces friction.
+- If your org uses a different plugin, add a small adapter in `scripts/adapters/` that converts plugin output to the canonical schema—this is a one-time cost and makes future syncs smooth.
+- Include `tokens:` annotations in Figma style descriptions where possible — this speeds mapping and reduces ambiguity.
+
+---
+
+## Links
+
+- Canonical schema: `figma/CANONICAL_EXPORT_SCHEMA.md`
+- Mapping file: `figma/FIGMA_STYLE_MAP.json`
+- Sync script: `scripts/figma-sync.js`
+- Dry-run CI: `.github/workflows/figma-sync-dry-run.yml`
