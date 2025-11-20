@@ -23,11 +23,11 @@ This document prescribes a single predictable organization for the Figma design 
 
 ## File organisation (top-level pages)
 
-Inside the canonical file, create these top-level **pages** in this order:
+Inside the file, create these top-level **pages** in this order:
 
 1. **00 - Tokens (source)**
 
-   - Purpose: canonical Figma Styles that correspond to `tokens/tokens.json` (colors, typography styles, spacing tokens represented as named tokens or frames).
+   - Purpose: Figma Styles that correspond to `tokens/tokens.json` (colors, typography styles, spacing tokens represented as named tokens or frames).
    - Contents: Color Styles, Text Styles, Effect Styles, Grid/Layout styles, Motion presets (as annotated frames).
    - Notes: This page is the single Figma view of tokens and must mirror `TOKENS_MAPPING.md`.
 
