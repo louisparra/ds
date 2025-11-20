@@ -1,0 +1,27 @@
+{
+  "_comment": "Fixture: linear gradient token (edge case). Maintainers/tooling engineers edit. Update when gradient format expectations change. Approvals: Token Owner & Engineering Lead.",
+  "global": {
+    "color": {
+      "gradient": {
+        "hero-linear": {
+          "value": {
+            "type": "linear-gradient",
+            "angle": "135deg",
+            "stops": [
+              { "position": 0, "color": "#FF6B6B" },
+              { "position": 50, "color": "rgba(10,132,255,0.85)" },
+              { "position": 100, "color": "#8E44AD" }
+            ]
+          },
+          "type": "gradient",
+          "description": "Hero linear gradient with semi-transparent middle stop"
+        },
+        "accent-linear-css": {
+          "value": "linear-gradient(90deg, #FF6B6B 0%, rgba(10,132,255,0.9) 60%, #FFD166 100%)",
+          "type": "gradient",
+          "description": "CSS-string gradient representation (should be parsed or preserved)"
+        }
+      }
+    }
+  }
+}

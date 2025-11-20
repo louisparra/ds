@@ -1,0 +1,28 @@
+{
+  "_comment": "Fixture: radial gradient token and an example with focal point. Maintainers edit. Update if radial handling changes. Approvals: Token Owner & Engineering Lead.",
+  "tokens": {
+    "color": {
+      "gradient": {
+        "badge-radial": {
+          "value": {
+            "type": "radial-gradient",
+            "shape": "ellipse",
+            "stops": [
+              { "position": 0, "color": "#FFFFFF" },
+              { "position": 70, "color": "#0A84FF" },
+              { "position": 100, "color": "#001F3F" }
+            ],
+            "focalPoint": { "x": 0.5, "y": 0.4 }
+          },
+          "type": "gradient",
+          "description": "Radial gradient for badges, with focal point"
+        },
+        "overlay-radial-css": {
+          "value": "radial-gradient(ellipse at 40% 30%, #fff 0%, #0A84FF 60%, #001F3F 100%)",
+          "type": "gradient",
+          "description": "Radial gradient as CSS string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "_comment": "Fixture: multi-mode tokens (light/dark). Demonstrates meta.modes and mode-aware values. Edit by Token Owner. Update when mode strategy changes. Approvals: Token Owner & Engineering Lead.",
+  "schemaVersion": "1.0",
+  "exportedAt": "2025-11-19T00:00:00Z",
+  "source": { "file": "DS.Core", "plugin": "example" },
+  "tokens": [
+    {
+      "name": "color.bg.page",
+      "dotPath": "color.bg.page",
+      "type": "color",
+      "value": "#FFFFFF",
+      "description": "Primary page background (light default)",
+      "meta": {
+        "modes": {
+          "light": "#FFFFFF",
+          "dark": "#0B0B0B"
+        },
+        "figmaStyleId": "S:page-bg-001"
+      }
+    },
+    {
+      "name": "color.text.primary",
+      "dotPath": "color.text.primary",
+      "type": "color",
+      "value": "#091625",
+      "description": "Primary text color",
+      "meta": {
+        "modes": {
+          "light": "#091625",
+          "dark": "#E6EEF8"
+        }
+      }
+    },
+    {
+      "name": "color.brand.gradient-modes",
+      "dotPath": "color.brand.gradientModes",
+      "type": "gradient",
+      "value": {
+        "type": "linear-gradient",
+        "stops": [
+          { "position": 0, "color": "#FF6B6B" },
+          { "position": 100, "color": "#FFB86B" }
+        ]
+      },
+      "meta": {
+        "modes": {
+          "light": {
+            "type": "linear-gradient",
+            "stops": [
+              { "position": 0, "color": "#FF6B6B" },
+              { "position": 100, "color": "#FFB86B" }
+            ]
+          },
+          "dark": {
+            "type": "linear-gradient",
+            "stops": [
+              { "position": 0, "color": "#732C2C" },
+              { "position": 100, "color": "#7A4F25" }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

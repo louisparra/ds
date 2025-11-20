@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "1.0",
+  "exportedAt": "2025-11-20T00:55:03.579Z",
+  "source": {
+    "plugin": "figma-tokens-adapter"
+  },
+  "tokens": [
+    {
+      "name": "global/color/gradient/hero-linear",
+      "dotPath": "color.gradient.hero.linear",
+      "type": "gradient",
+      "value": {
+        "type": "linear-gradient",
+        "angle": "135deg",
+        "stops": [
+          {
+            "position": 0,
+            "color": "#FF6B6B"
+          },
+          {
+            "position": 50,
+            "color": "rgba(10,132,255,0.85)"
+          },
+          {
+            "position": 100,
+            "color": "#8E44AD"
+          }
+        ]
+      },
+      "description": "Hero linear gradient with semi-transparent middle stop",
+      "meta": {
+        "raw": {
+          "value": {
+            "type": "linear-gradient",
+            "angle": "135deg",
+            "stops": [
+              {
+                "position": 0,
+                "color": "#FF6B6B"
+              },
+              {
+                "position": 50,
+                "color": "rgba(10,132,255,0.85)"
+              },
+              {
+                "position": 100,
+                "color": "#8E44AD"
+              }
+            ]
+          },
+          "type": "gradient",
+          "description": "Hero linear gradient with semi-transparent middle stop"
+        }
+      }
+    },
+    {
+      "name": "global/color/gradient/accent-linear-css",
+      "dotPath": "color.gradient.accent.linear.css",
+      "type": "gradient",
+      "value": "linear-gradient(90deg, #FF6B6B 0%, rgba(10,132,255,0.9) 60%, #FFD166 100%)",
+      "description": "CSS-string gradient representation (should be parsed or preserved)",
+      "meta": {
+        "raw": {
+          "value": "linear-gradient(90deg, #FF6B6B 0%, rgba(10,132,255,0.9) 60%, #FFD166 100%)",
+          "type": "gradient",
+          "description": "CSS-string gradient representation (should be parsed or preserved)"
+        }
+      }
+    }
+  ]
+}

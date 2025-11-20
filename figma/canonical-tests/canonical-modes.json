@@ -1,0 +1,160 @@
+{
+  "schemaVersion": "1.0",
+  "exportedAt": "2025-11-20T00:55:53.314Z",
+  "source": {
+    "plugin": "figma-tokens-adapter"
+  },
+  "tokens": [
+    {
+      "name": "tokens/0",
+      "dotPath": "color.bg.page",
+      "type": "color",
+      "value": "#FFFFFF",
+      "description": "Primary page background (light default)",
+      "meta": {
+        "modes": {
+          "light": "#FFFFFF",
+          "dark": "#0B0B0B"
+        },
+        "figmaStyleId": "S:page-bg-001",
+        "raw": {
+          "name": "color.bg.page",
+          "dotPath": "color.bg.page",
+          "type": "color",
+          "value": "#FFFFFF",
+          "description": "Primary page background (light default)",
+          "meta": {
+            "modes": {
+              "light": "#FFFFFF",
+              "dark": "#0B0B0B"
+            },
+            "figmaStyleId": "S:page-bg-001"
+          }
+        }
+      }
+    },
+    {
+      "name": "tokens/1",
+      "dotPath": "color.text.primary",
+      "type": "color",
+      "value": "#091625",
+      "description": "Primary text color",
+      "meta": {
+        "modes": {
+          "light": "#091625",
+          "dark": "#E6EEF8"
+        },
+        "raw": {
+          "name": "color.text.primary",
+          "dotPath": "color.text.primary",
+          "type": "color",
+          "value": "#091625",
+          "description": "Primary text color",
+          "meta": {
+            "modes": {
+              "light": "#091625",
+              "dark": "#E6EEF8"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "tokens/2",
+      "dotPath": "color.brand.gradientmodes",
+      "type": "gradient",
+      "value": {
+        "type": "linear-gradient",
+        "stops": [
+          {
+            "position": 0,
+            "color": "#FF6B6B"
+          },
+          {
+            "position": 100,
+            "color": "#FFB86B"
+          }
+        ]
+      },
+      "description": null,
+      "meta": {
+        "modes": {
+          "light": {
+            "type": "linear-gradient",
+            "stops": [
+              {
+                "position": 0,
+                "color": "#FF6B6B"
+              },
+              {
+                "position": 100,
+                "color": "#FFB86B"
+              }
+            ]
+          },
+          "dark": {
+            "type": "linear-gradient",
+            "stops": [
+              {
+                "position": 0,
+                "color": "#732C2C"
+              },
+              {
+                "position": 100,
+                "color": "#7A4F25"
+              }
+            ]
+          }
+        },
+        "raw": {
+          "name": "color.brand.gradient-modes",
+          "dotPath": "color.brand.gradientModes",
+          "type": "gradient",
+          "value": {
+            "type": "linear-gradient",
+            "stops": [
+              {
+                "position": 0,
+                "color": "#FF6B6B"
+              },
+              {
+                "position": 100,
+                "color": "#FFB86B"
+              }
+            ]
+          },
+          "meta": {
+            "modes": {
+              "light": {
+                "type": "linear-gradient",
+                "stops": [
+                  {
+                    "position": 0,
+                    "color": "#FF6B6B"
+                  },
+                  {
+                    "position": 100,
+                    "color": "#FFB86B"
+                  }
+                ]
+              },
+              "dark": {
+                "type": "linear-gradient",
+                "stops": [
+                  {
+                    "position": 0,
+                    "color": "#732C2C"
+                  },
+                  {
+                    "position": 100,
+                    "color": "#7A4F25"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
