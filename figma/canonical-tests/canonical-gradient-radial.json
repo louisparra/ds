@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "1.0",
+  "exportedAt": "2025-11-20T01:14:50.049Z",
+  "source": {
+    "plugin": "token-studio-adapter"
+  },
+  "tokens": [
+    {
+      "name": "color/gradient/badge-radial",
+      "dotPath": "color.gradient.badge.radial",
+      "value": {
+        "type": "radial-gradient",
+        "shape": "ellipse",
+        "stops": [
+          {
+            "position": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "position": 70,
+            "color": "#0A84FF"
+          },
+          {
+            "position": 100,
+            "color": "#001F3F"
+          }
+        ],
+        "focalPoint": {
+          "x": 0.5,
+          "y": 0.4
+        }
+      },
+      "type": "gradient",
+      "description": "Radial gradient for badges, with focal point",
+      "meta": {
+        "raw": {
+          "value": {
+            "type": "radial-gradient",
+            "shape": "ellipse",
+            "stops": [
+              {
+                "position": 0,
+                "color": "#FFFFFF"
+              },
+              {
+                "position": 70,
+                "color": "#0A84FF"
+              },
+              {
+                "position": 100,
+                "color": "#001F3F"
+              }
+            ],
+            "focalPoint": {
+              "x": 0.5,
+              "y": 0.4
+            }
+          },
+          "type": "gradient",
+          "description": "Radial gradient for badges, with focal point"
+        }
+      }
+    },
+    {
+      "name": "color/gradient/overlay-radial-css",
+      "dotPath": "color.gradient.overlay.radial.css",
+      "value": "radial-gradient(ellipse at 40% 30%, #fff 0%, #0A84FF 60%, #001F3F 100%)",
+      "type": "gradient",
+      "description": "Radial gradient as CSS string",
+      "meta": {
+        "raw": {
+          "value": "radial-gradient(ellipse at 40% 30%, #fff 0%, #0A84FF 60%, #001F3F 100%)",
+          "type": "gradient",
+          "description": "Radial gradient as CSS string"
+        }
+      }
+    }
+  ]
+}

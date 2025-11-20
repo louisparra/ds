@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "exportedAt": "2025-11-20T00:55:49.575Z",
+  "exportedAt": "2025-11-20T01:14:50.181Z",
   "source": {
     "plugin": "figmagic-adapter"
   },
@@ -35,7 +35,7 @@
     },
     {
       "name": "shadow.popup-complex",
-      "dotPath": "shadow.popup-complex",
+      "dotPath": "shadow.popup.complex",
       "value": [
         {
           "type": "shadow",
@@ -83,7 +83,7 @@
     },
     {
       "name": "shadow.inset-example",
-      "dotPath": "shadow.inset-example",
+      "dotPath": "shadow.inset.example",
       "value": {
         "type": "shadow",
         "x": 0,

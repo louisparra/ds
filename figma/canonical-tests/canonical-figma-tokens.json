@@ -1,12 +1,12 @@
 {
   "schemaVersion": "1.0",
-  "exportedAt": "2025-11-20T00:53:46.922Z",
+  "exportedAt": "2025-11-20T01:14:49.515Z",
   "source": {
     "plugin": "figma-tokens-adapter"
   },
   "tokens": [
     {
-      "name": "global/color/brand/primary",
+      "name": "color/brand/primary",
       "dotPath": "color.brand.primary",
       "type": "color",
       "value": "#0A84FF",
@@ -20,7 +20,7 @@
       }
     },
     {
-      "name": "global/color/brand/secondary",
+      "name": "color/brand/secondary",
       "dotPath": "color.brand.secondary",
       "type": "color",
       "value": "#FF6B6B",
@@ -34,7 +34,7 @@
       }
     },
     {
-      "name": "global/type/body/16-regular",
+      "name": "type/body/16-regular",
       "dotPath": "type.body.16.regular",
       "type": "typography",
       "value": {

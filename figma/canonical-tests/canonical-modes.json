@@ -1,12 +1,12 @@
 {
   "schemaVersion": "1.0",
-  "exportedAt": "2025-11-20T00:55:53.314Z",
+  "exportedAt": "2025-11-20T01:14:50.289Z",
   "source": {
     "plugin": "figma-tokens-adapter"
   },
   "tokens": [
     {
-      "name": "tokens/0",
+      "name": "color.bg.page",
       "dotPath": "color.bg.page",
       "type": "color",
       "value": "#FFFFFF",
@@ -34,7 +34,7 @@
       }
     },
     {
-      "name": "tokens/1",
+      "name": "color.text.primary",
       "dotPath": "color.text.primary",
       "type": "color",
       "value": "#091625",
@@ -60,8 +60,8 @@
       }
     },
     {
-      "name": "tokens/2",
-      "dotPath": "color.brand.gradientmodes",
+      "name": "color.brand.gradient-modes",
+      "dotPath": "color.brand.gradientModes",
       "type": "gradient",
       "value": {
         "type": "linear-gradient",
@@ -76,7 +76,6 @@
           }
         ]
       },
-      "description": null,
       "meta": {
         "modes": {
           "light": {

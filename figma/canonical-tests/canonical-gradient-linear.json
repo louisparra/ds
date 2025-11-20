@@ -1,12 +1,12 @@
 {
   "schemaVersion": "1.0",
-  "exportedAt": "2025-11-20T00:55:03.579Z",
+  "exportedAt": "2025-11-20T01:14:49.930Z",
   "source": {
     "plugin": "figma-tokens-adapter"
   },
   "tokens": [
     {
-      "name": "global/color/gradient/hero-linear",
+      "name": "color/gradient/hero-linear",
       "dotPath": "color.gradient.hero.linear",
       "type": "gradient",
       "value": {
@@ -54,7 +54,7 @@
       }
     },
     {
-      "name": "global/color/gradient/accent-linear-css",
+      "name": "color/gradient/accent-linear-css",
       "dotPath": "color.gradient.accent.linear.css",
       "type": "gradient",
       "value": "linear-gradient(90deg, #FF6B6B 0%, rgba(10,132,255,0.9) 60%, #FFD166 100%)",

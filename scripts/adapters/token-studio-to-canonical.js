@@ -11,11 +11,10 @@ Update when Token Studio export conventions change or canonical schema updates.
 Who must approve changes:
 Token Owner & Engineering Lead.
 
-Usage:
-  node scripts/adapters/token-studio-to-canonical.js --input ./figma/token-studio-export.json --output ./figma/canonical-export.json
-
-Expected output:
-  - Writes ./figma/canonical-export.json containing canonical schema.
+NOTES:
+- Now prefers entry.dotPath when present, preserving canonical dotPath casing and overrides.
+- When deriving a dotPath from a name, normalizes separators to canonical dot.path (replaces /, space, _, - with dots,
+  removes non-alphanumeric/dot, collapses duplicate dots, lowercases).
 */
 
 const fs = require('fs');
@@ -51,6 +50,7 @@ function readJson(p) {
     process.exit(1);
   }
 }
+
 function writeJson(p, obj) {
   fs.mkdirSync(path.dirname(p), { recursive: true });
   fs.writeFileSync(p, JSON.stringify(obj, null, 2) + '\n', 'utf8');
@@ -61,16 +61,35 @@ function isPlainObject(v) {
   return v && typeof v === 'object' && !Array.isArray(v);
 }
 
+// Normalize a derived name into a dot.path canonical key
+function normalizeToDotPathFromName(name) {
+  if (!name || typeof name !== 'string') return '';
+  // replace common separators with dot (remove useless escape)
+  let s = name.trim().replace(/[/\s\-_]+/g, '.');
+  // remove characters other than alnum and dot
+  s = s.replace(/[^a-zA-Z0-9.]/g, '');
+  // collapse multiple dots
+  s = s.replace(/\.+/g, '.');
+  // remove leading/trailing dots
+  s = s.replace(/^\.+|\.+$/g, '');
+  return s.toLowerCase();
+}
+
 // Token Studio often exports a top-level "tokens" object keyed by category
-// Example shapes handled:
-// { "tokens": { "color": { "brand": { "primary": { "value": "#fff", "type":"color" }}}}}
 function flattenTokenStudio(obj, prefix = []) {
   const out = [];
   if (!isPlainObject(obj)) return out;
-  if ('value' in obj || 'type' in obj || 'description' in obj) {
+
+  if (
+    Object.prototype.hasOwnProperty.call(obj, 'value') ||
+    (Object.prototype.hasOwnProperty.call(obj, 'type') &&
+      (typeof obj.type === 'string' || typeof obj.type === 'number')) ||
+    Object.prototype.hasOwnProperty.call(obj, 'description')
+  ) {
     out.push({ name: prefix.join('/'), entry: obj });
     return out;
   }
+
   for (const k of Object.keys(obj)) {
     const v = obj[k];
     if (isPlainObject(v)) {
@@ -78,10 +97,17 @@ function flattenTokenStudio(obj, prefix = []) {
     } else if (Array.isArray(v)) {
       v.forEach((it, idx) => {
         if (isPlainObject(it)) out.push(...flattenTokenStudio(it, prefix.concat([k, String(idx)])));
-        else out.push({ name: prefix.concat([k, String(idx)]).join('/'), entry: { value: it } });
+        else
+          out.push({
+            name: prefix.concat([k, String(idx)]).join('/'),
+            entry: { value: it },
+          });
       });
     } else {
-      out.push({ name: prefix.concat([k]).join('/'), entry: { value: v } });
+      out.push({
+        name: prefix.concat([k]).join('/'),
+        entry: { value: v },
+      });
     }
   }
   return out;
@@ -90,26 +116,42 @@ function flattenTokenStudio(obj, prefix = []) {
 function extractEntries(exportJson) {
   if (!exportJson) return [];
   if (Array.isArray(exportJson.tokens)) {
-    // sometimes token studio exports an array
     return exportJson.tokens.map((t) => ({ name: t.name || null, entry: t }));
   }
   if (isPlainObject(exportJson.tokens)) {
     return flattenTokenStudio(exportJson.tokens);
   }
-  // fallback: try flattening root
   return flattenTokenStudio(exportJson);
 }
 
 function toCanonical(name, entry) {
   const token = {};
   token.name = (name || '').replace(/^\//, '');
-  token.dotPath = (token.name || '').replace(/\//g, '.').toLowerCase();
+
+  if (
+    entry &&
+    typeof entry === 'object' &&
+    entry.dotPath &&
+    typeof entry.dotPath === 'string' &&
+    entry.dotPath.trim() !== ''
+  ) {
+    token.dotPath = entry.dotPath;
+  } else {
+    token.dotPath = normalizeToDotPathFromName(token.name);
+  }
+
   if ('value' in entry) token.value = entry.value;
   else token.value = entry.default || null;
+
   if (entry.type) token.type = entry.type;
   if (entry.description) token.description = entry.description;
+
   token.meta = token.meta || {};
+  if (entry.meta && typeof entry.meta === 'object') {
+    token.meta = Object.assign({}, entry.meta, token.meta);
+  }
   token.meta.raw = entry;
+
   return token;
 }
 
